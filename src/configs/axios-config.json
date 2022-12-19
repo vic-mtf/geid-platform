@@ -1,0 +1,10 @@
+{
+    "baseURL": "https://geidbudget.com",
+    "timeout": 1000,
+    "responseType": "json",
+    "responseEncoding": "utf8",
+    "maxContentLength": 4000,
+    "proxy": {
+        "protocol": "https"
+      }
+}

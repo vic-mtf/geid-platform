@@ -1,0 +1,35 @@
+{
+  "short_name": "Geid",
+  "name": "Gestion électronique de l'information et des documents",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "logo32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "logo64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "logo100.png",
+      "type": "image/png",
+      "sizes": "100x100"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff05",
+  "background_color": "#eeeeee05"
+}

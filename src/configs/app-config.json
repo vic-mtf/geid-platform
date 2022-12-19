@@ -1,0 +1,31 @@
+{
+    "name": "geid",
+    "version": "1.1.0",
+    "lang": "fr",
+    "languages": [
+        {
+            "name": "français",
+            "code": "fr-FR"
+        },
+        {
+            "name": "english",
+            "code": "en-EN"
+        }
+    ],
+    "colors" : {
+        "main": "#1C4294",
+        "primary" : {
+            "mode": "auto",
+            "dark": {
+                "main": "#1C4294",
+                "default": "#00173e",
+                "paper": "#09162a"
+            },
+            "light": {
+                "main": "#0095C9",
+                "default": "#eeeeee",
+                "paper": "#ffffff"
+            }
+        }
+    }
+}
