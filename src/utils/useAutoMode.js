@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from "react";
 export default function useAutoMode() {
     const [mode, setMode] = useState(darkThemeMediaquery.matches ? 'dark': 'light');
     
-    const handleChange = useCallback(event => 
-        setMode(event.target.matches ? 'dark': 'light'), 
-        [mode]
-        );
+    const handleChange = useCallback(event => setMode(
+        event.target.matches ? 'dark': 'light'
+        ), []
+    );
 
     useEffect(()=> {
         darkThemeMediaquery
@@ -16,7 +16,7 @@ export default function useAutoMode() {
             'change', 
             handleChange
         );
-    },[mode]);
+    },[handleChange]);
    
     return mode
 }

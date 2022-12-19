@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import useAutoMode from './useAutoMode';
 
-export default (() => {
+const useTheme = () => {
     const autoMode = useAutoMode();
     const themeMode = useSelector(store => store.app?.mode);
 
@@ -24,4 +24,6 @@ export default (() => {
             primary: { main },
             background: { default: otherKey, paper }
         }
-    })});
+    })};
+
+    export default useTheme;

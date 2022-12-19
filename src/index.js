@@ -1,15 +1,14 @@
 import React, { useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles/index.css';
+import { Provider as ReduxProvider, useSelector } from 'react-redux';
+import { ThemeProvider } from '@mui/material';
+import useTheme from './utils/useTheme';
+import store from './redux/store';import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider as ReduxProvider, useSelector } from 'react-redux';
-import useTheme from './utils/useTheme';
-import { ThemeProvider } from '@mui/material';
-import store from './redux/store';
 
 const ConfigAppWrapper = ({ children }) => {
-  const {lang} = useSelector(store => store.app);
+  const { lang } = useSelector(store => store.app);
   const theme = useTheme();
   useLayoutEffect(() => {
     document.head.parentElement.lang = lang;
