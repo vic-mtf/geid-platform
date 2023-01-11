@@ -6,7 +6,7 @@ import useAutoMode from './useAutoMode';
 
 const useTheme = () => {
     const autoMode = useAutoMode();
-    const themeMode = useSelector(store => store.app?.mode);
+    const {mode: themeMode, opacity, blur } = useSelector(store => store.app);
 
     const mode = useMemo(() => 
         themeMode === 'auto' ? autoMode : themeMode, 
@@ -21,8 +21,14 @@ const useTheme = () => {
     return createTheme({
         palette: {
             mode,
-            primary: { main },
-            background: { default: otherKey, paper }
+            primary: { 
+                main: main || appConfig.colors.main,
+            },
+            background: { ...otherKey, paper }
+        },
+        customOptions : {
+            opacity: Math.round(255 * opacity).toString(16),
+            blur: `${blur}px`
         }
     })};
 

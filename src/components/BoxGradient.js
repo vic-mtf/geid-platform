@@ -9,11 +9,12 @@ const BoxGradient = styled( Box, {
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+    flexDirection: 'column',
     background: colors.map((color, index) => 
       `linear-gradient(${
         (360 / colors.length) * index
       }deg, ${color}, transparent 70.71%)`).join(','),
-  })); 
+ })); 
 
 export default BoxGradient;
 

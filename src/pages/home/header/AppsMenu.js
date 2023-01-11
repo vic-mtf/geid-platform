@@ -1,0 +1,79 @@
+import { 
+    CardActionArea,
+    CardContent, 
+    CardMedia, 
+    Grid, 
+    Menu,
+    Stack
+} from '@mui/material';
+import Typography from '../../../components/Typography';
+import appsList from './appsList';
+
+export default function AppsMenu ({anchorEl, onClose}) {
+    return (
+        <Menu 
+            id="_apps" 
+            anchorEl={anchorEl} 
+            keepMounted 
+            open={Boolean(anchorEl)} 
+            onClose={onClose}
+            PaperProps={{
+                sx: {
+                    bgcolor: theme => theme.palette.background.paper + 
+                    theme.customOptions.opacity,
+                    border: theme => `1px solid ${theme.palette.divider}`,
+                    height: 400,
+                    width: 350,
+                    backdropFilter: theme => `blur(${theme.customOptions.blur})`
+                }
+            }}
+        >
+          <CardContent>
+          <Typography
+            variant="h6"
+            paragraph
+            fontSize={15}
+            fontWeight="bold"
+          >Applications</Typography>
+            <Grid container spacing={1}>
+                {appsList.map((app, index) => (
+                    <Grid 
+                        item 
+                        xs={4} 
+                        display="flex" 
+                        justifyContent="center" 
+                        key={index}
+                    >
+                        <CardActionArea
+                            sx={{borderRadius: 2}}
+                        >
+                            <Stack
+                                display="flex"
+                                m={1}
+                                alignItems="center"
+                                spacing={.5}
+                            >
+                                
+                                    <CardMedia
+                                            component="img"
+                                            src={app.src}
+                                            srcSet={app.src}
+                                            draggable={false}
+                                            sx={{
+                                                height: 60,
+                                                width: 60,
+                                            }}
+                                    />
+                                    <Typography
+                                        align="center"
+                                        variant="caption"
+                                    >{app.name}</Typography> 
+                            </Stack>
+                        </CardActionArea>
+                    </Grid>
+                ))}
+            </Grid>
+          </CardContent>
+        </Menu>
+    )
+}

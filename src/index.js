@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
@@ -10,10 +10,19 @@ import reportWebVitals from './reportWebVitals';
 const ConfigAppWrapper = ({ children }) => {
   const { lang } = useSelector(store => store.app);
   const theme = useTheme();
+  const bgcolor = useMemo(() => theme.palette.background.default, [theme]);
+  
   useLayoutEffect(() => {
     document.head.parentElement.lang = lang;
-  }, [lang]);
-  return ( <ThemeProvider theme={theme}>{children}</ThemeProvider> );
+    document.body.parentElement.style.backgroundColor = bgcolor;
+    document.body.style.backgroundColor = bgcolor;
+  }, [lang, bgcolor]);
+
+  return ( 
+    <ThemeProvider theme={theme}>
+          {children}
+    </ThemeProvider>
+    );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,13 +1,13 @@
-//import { Box } from "@mui/material";
+import { RouterProvider } from "react-router-dom";
 import BoxGradient from "./components/BoxGradient";
-import Button from "./components/Button";
+import router from "./router/router";
 
 function App() {
   return (
     <BoxGradient>
-      <Button>
-        hello world
-      </Button>
+        <RouterProvider 
+          router={router}
+        />
     </BoxGradient>
   );
 }

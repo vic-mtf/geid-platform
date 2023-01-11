@@ -9,9 +9,10 @@ import {
   } from 'redux-persist';
 import persistStore from "redux-persist/es/persistStore";
 import app from "./app";
+import user from "./user";
 
 const store = configureStore({
-    reducer: { app },
+    reducer: { app, user },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
