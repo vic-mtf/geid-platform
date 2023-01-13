@@ -44,7 +44,6 @@ export default function CheckInformation ({
                         <InputsCode
                             onChangeEnd={value => {
                                 const inputCode = parseInt(value?.join(''));
-                                console.log(code);
                                 if(inputCode === parseInt(code))
                                     refresh({
                                         data: formData, 

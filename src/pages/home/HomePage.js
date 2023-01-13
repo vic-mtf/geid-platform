@@ -107,8 +107,6 @@ const SignupAction = () => {
     return notConnected && (
         <CardActions>
             <Button 
-                //component={Link} 
-                //to="/account/signup" 
                 onClick={event => {
                     event.preventDefault();
                         const width = window.innerWidth * .75;

@@ -48,7 +48,6 @@ export default function PubItem ({desc, description, src, uri, title, srcSet}) {
                             component="img"
                             sx={{
                                 borderRadius: 2, 
-                                bgcolor: 'red', 
                                 height: 170, 
                                 width: 170,
                                 m: 1,

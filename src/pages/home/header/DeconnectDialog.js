@@ -70,10 +70,7 @@ export default function DeconnectDialog () {
             id="alert-dialog-description"
             component="div"
           >
-            <Typography
-                variant="body2"
-                component="div"
-            > 
+            <Typography> 
                 Lorsque vous vous déconnectez, vos données seront conservées sur 
                 cet appareil afin qu'il se souvienne de vous lors de la prochaine 
                 tentative de connexion jusqu'à la fin de votre session.
@@ -92,7 +89,6 @@ export default function DeconnectDialog () {
                         >Supprimer toutes vos données</Typography>
                     }
                     labelPlacement="end"
-                    //sx={{color: theme => theme.palette.text.primary, fontSize:5}}   
                 />
             </FormControl>
             </MuiBox>

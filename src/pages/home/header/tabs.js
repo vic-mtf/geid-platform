@@ -5,13 +5,12 @@ const tabs = [
         label: 'Accueil',
         access: 'public',
         id: '_home',
-        href: '',
     },
     {
         label: 'Mediathèque',
         access: 'public',
         id: '_medialibary',
-        href: 'https://geidbudget.com/apps/medialibrary',
+        href: '/apps/medialibrary',
         component: 'a',
     },
     {

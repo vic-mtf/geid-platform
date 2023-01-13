@@ -57,9 +57,29 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                         badgeContent={
                             <IconButton 
                                 size="small"
+                                onClick={async() => {
+                                    const file = await new Promise((resolve, reject) => {
+                                        const inputFile = document.createElement('input')
+                                        inputFile.setAttribute('type', 'file');
+                                        inputFile.setAttribute('accept', 'image/*');
+                                        inputFile.addEventListener('change', event => {
+                                            const [file] = event.target.files;
+                                            if(file)
+                                                resolve (file);
+                                            else reject('Error file');
+                                        })
+                                        inputFile.click();
+                                    });
+                                    if(file) {const _eventName = '_edite_profile_image';
+                                        const customEvent = new CustomEvent(_eventName, {
+                                            detail: {file, name: _eventName}
+                                        });
+                                        document.getElementById('root').dispatchEvent(customEvent);
+                                    }
+                                    onClose();
+                                }}  
                                 sx={{
-                                    //border: theme => `1px solid ${theme.palette.divider}`,
-                                    bgcolor: 'transparent',
+                                    bgcolor: theme => theme.palette.background.paper + 'aa',
                                     backdropFilter: theme => `blur(${theme.customOptions.blur})`,
                                 }}
                             >
@@ -87,17 +107,12 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                         <Button
                             variant="outlined"
                             color="inherit"
-                            //sx={{mx:10}}
                             fullWidth={false}
                             size="medium"
                             onClick={() => {
                                 const customEvent = new CustomEvent(
                                     '_deconnected',
-                                    {
-                                        detail:{ 
-                                            name: '_deconnected',
-                                        }
-                                    }
+                                    { detail: { name: '_deconnected' }}
                                 );
                                 document.getElementById('root')
                                 .dispatchEvent(customEvent);

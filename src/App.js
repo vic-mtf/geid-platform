@@ -3,6 +3,7 @@ import BoxGradient from "./components/BoxGradient";
 import router from "./router/router";
 
 function App() {
+  
   return (
     <BoxGradient>
         <RouterProvider 

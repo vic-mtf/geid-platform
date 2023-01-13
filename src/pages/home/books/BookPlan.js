@@ -2,82 +2,95 @@ import { Card, Box as MuiBox, CardContent, CardMedia, useTheme } from "@mui/mate
 import { Stack } from "@mui/system";
 import { BookCover } from "book-cover-3d";
 import { extractColors } from "extract-colors";
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Button from "../../../components/Button";
 import Typography from "../../../components/Typography";
+import DocReader from "../../doc-reader";
 
-export default function BookPlan ({src, uri, title, srcSet}) {
+export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}) {
+    const [openReader, setOpenReader] = useState(false);
+    const _url = useMemo(() => url || src || uri, [url, src, uri]);
 
     return (
-        <Card
-            sx={{
-                bgcolor: theme => theme.palette.background.paper + 
-                theme.customOptions.opacity,
-                display: 'block',
-                backdropFilter: theme => `blur(${theme.customOptions.opacity})`
-            }}
-            elevation={0}
-        >
-            <CardContent>
-                <Stack
-                    direction="row"
-                >
-                    <MuiBox>
-                        <BookCoverColor 
-                            src={src || uri}
-                            srcSet={srcSet}
-                        />
-                    </MuiBox>
-                    <MuiBox
-                        display="flex"
-                        flex={1}
-                        pl={1}
+        <React.Fragment>
+            <Card
+                sx={{
+                    bgcolor: theme => theme.palette.background.paper + 
+                    theme.customOptions.opacity,
+                    display: 'block',
+                    backdropFilter: theme => `blur(${theme.customOptions.opacity})`
+                }}
+                elevation={0}
+            >
+                <CardContent>
+                    <Stack
+                        direction="row"
                     >
-                        <Stack
+                        <MuiBox>
+                            <BookCoverColor 
+                                src={coverUrl}
+                                srcSet={coverSrcSet}
+                            />
+                        </MuiBox>
+                        <MuiBox
                             display="flex"
                             flex={1}
+                            pl={1}
                         >
-                            <MuiBox
+                            <Stack
                                 display="flex"
                                 flex={1}
-                                position="relative"
                             >
-                                <Typography 
-                                    variant="body2"
-                                    sx={{
-                                        textOverflow: 'ellipsis',
-                                        overflow: 'hidden',
-                                        display: "-webkit-box",
-                                        WebkitLineClamp: 5,
-                                        WebkitBoxOrient: "vertical",
-                                        "&:hover": {
-                                            position: 'absolute',
-                                            height: 'auto',
-                                            display: "flex",
-                                            WebkitLineClamp: 'none',
-                                            WebkitBoxOrient: "none",
-                                            bgcolor: 'transparent',
-                                            backdropFilter: theme => `blur(${theme.customOptions.blur})`
-                                        }
-                                    }}
+                                <MuiBox
+                                    display="flex"
+                                    flex={1}
+                                    position="relative"
                                 >
-                                    {title}
-                                </Typography>
-                            </MuiBox>
-                            <MuiBox
-                              display="flex"
-                              justifyContent="center"
-                            >
-                                <Button 
-                                    fullWidth 
-                                    variant="outlined"
-                                >Lire le document</Button>  
-                            </MuiBox>
-                        </Stack>
-                    </MuiBox>
-                </Stack>
-            </CardContent>
-        </Card>
+                                    <Typography 
+                                        variant="body2"
+                                        sx={{
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                            display: "-webkit-box",
+                                            WebkitLineClamp: 5,
+                                            WebkitBoxOrient: "vertical",
+                                            "&:hover": {
+                                                position: 'absolute',
+                                                height: 'auto',
+                                                display: "flex",
+                                                WebkitLineClamp: 'none',
+                                                WebkitBoxOrient: "none",
+                                                bgcolor: 'transparent',
+                                                backdropFilter: theme => `blur(${theme.customOptions.blur})`
+                                            }
+                                        }}
+                                    >
+                                        {title}
+                                    </Typography>
+                                </MuiBox>
+                                <MuiBox
+                                display="flex"
+                                justifyContent="center"
+                                >
+                                    <Button 
+                                        fullWidth 
+                                        variant="outlined"
+                                        onClick={() => setOpenReader(true)}
+                                    >Lire le document</Button>  
+                                </MuiBox>
+                            </Stack>
+                        </MuiBox>
+                    </Stack>
+                </CardContent>
+            </Card>
+            {openReader &&
+            <DocReader
+                open={openReader}
+                onClose={() => setOpenReader(false)}
+                url={_url}
+                name={title}
+            />}
+        </React.Fragment>
     );
 }
 

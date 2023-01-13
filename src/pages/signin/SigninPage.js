@@ -97,9 +97,7 @@ export default function SigninPage() {
             <Dialog
                 open={finished}
                 PaperProps={{
-                    sx:{
-                        border: theme => `1px solid ${theme.palette.divider}`
-                    }
+                    sx:{ border: theme => `1px solid ${theme.palette.divider}` }
                 }}
                 BackdropProps={{
                     sx: {

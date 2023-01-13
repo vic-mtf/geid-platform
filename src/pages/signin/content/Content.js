@@ -67,8 +67,11 @@ export default function Content ({loading, refresh}) {
                         docTypes: data.docTypes,
                         number: data.phoneCell,
                         image: data.userImage || null,
-                        func: data.userGrade,
+                        grade: data?.userGrade?.grade,
+                        role: data?.userGrade?.role,
+                        permissions: data?.userGrade?.permission
                     });
+  
                     const customEnvent = new CustomEvent('_connected', {
                         detail: {
                             user,
@@ -79,7 +82,6 @@ export default function Content ({loading, refresh}) {
                     .dispatchEvent(customEnvent);
                 })
                 .catch(error => {
-                    console.log(error);
                     setErrorMesssage(
                         `Impossible d'ouvrir une session 
                         en raison du mot de passe incorrect, 
@@ -98,15 +100,11 @@ export default function Content ({loading, refresh}) {
                         vérifiez pour essayer à nouveau.`
                     )
                 });
-
         } 
         else setErrorMesssage(
             `Impossible de se connecter, 
             Merci de saisir une adresse e-mail valide.`
         );
-        // if(!defaultEmail && !!email)
-        //     navigateTo('?' + queryString.stringify({email, password}));
-
     };
 
     return (

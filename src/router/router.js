@@ -25,11 +25,13 @@ const router = createBrowserRouter([
     },
     {
         path: 'account/signup/*',
-        element: <SignupPagge/>
+        element: <SignupPagge/>,
+        errorElement: <ErrorBoundary/>,
     },
     {
         path: '/apps/dashboard',
-        element: <Dashboard/>
+        element: <Dashboard/>,
+        errorElement: <ErrorBoundary/>,
     }
 ]);
 

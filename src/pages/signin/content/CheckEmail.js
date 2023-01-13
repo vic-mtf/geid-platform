@@ -80,7 +80,7 @@ const Account = () => {
                     document.getElementById('root')
                     .dispatchEvent(customEnvent);
                 }}
-            >phalphie@gmail.com</Link>
+            >{user?.email}</Link>
         </Typography>
     )
 }

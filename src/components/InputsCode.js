@@ -1,5 +1,5 @@
 import { FormControl, OutlinedInput, Stack, IconButton } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded';
 export default function InputsCode ({
         len,

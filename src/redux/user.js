@@ -6,6 +6,7 @@ const user = createSlice({
     name: 'user',
     initialState: {
         connected: false,
+        //image: null,
     },
     reducers: {
         changeValues (state, actions) {
@@ -13,7 +14,12 @@ const user = createSlice({
             Object.keys(actions.payload).forEach(key => {
                 state[key] = actions.payload[key]
             });
-            state.connected = !!token;
+            if(token)
+                state.connected = true;
+        },
+        updateValue(state, actions) {
+            const {key, value} = actions.payload;
+            state[key] = value;
         },
         deconnected (state) {
             state.connected = false;
@@ -21,7 +27,7 @@ const user = createSlice({
     }
 });
 
-export const { changeValues, deconnected } = user.actions;
+export const { changeValues, deconnected, updateValue } = user.actions;
 export default persistReducer({
     storage,
     key:'__ROOT_GEID_USER_CONFIG_APP'

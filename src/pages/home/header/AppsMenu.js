@@ -6,10 +6,14 @@ import {
     Menu,
     Stack
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 import Typography from '../../../components/Typography';
+import inArray from '../../../utils/inArray';
 import appsList from './appsList';
 
 export default function AppsMenu ({anchorEl, onClose}) {
+    const permissions = useSelector(store => store?.user?.permissions || []);
+  
     return (
         <Menu 
             id="_apps" 
@@ -28,30 +32,38 @@ export default function AppsMenu ({anchorEl, onClose}) {
                 }
             }}
         >
-          <CardContent>
-          <Typography
-            variant="h6"
-            paragraph
-            fontSize={15}
-            fontWeight="bold"
-          >Applications</Typography>
-            <Grid container spacing={1}>
-                {appsList.map((app, index) => (
+          <CardContent component="div">
+            <Typography
+                variant="h6"
+                paragraph
+                fontSize={15}
+                fontWeight="bold"
+            >Applications</Typography>
+            <Grid container spacing={1} component="div" >
+                {appsList.map((app, index) => 
+                    inArray(
+                       app.permissions,
+                       permissions
+                    ) && (
                     <Grid 
                         item 
                         xs={4} 
                         display="flex" 
                         justifyContent="center" 
                         key={index}
+                        component="div"
                     >
                         <CardActionArea
                             sx={{borderRadius: 2}}
+                            LinkComponent={app.component || "a"}
+                            href={app.href}
                         >
                             <Stack
                                 display="flex"
                                 m={1}
                                 alignItems="center"
                                 spacing={.5}
+                                component="div"
                             >
                                 
                                     <CardMedia
@@ -75,5 +87,5 @@ export default function AppsMenu ({anchorEl, onClose}) {
             </Grid>
           </CardContent>
         </Menu>
-    )
+    );
 }
