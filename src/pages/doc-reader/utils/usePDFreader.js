@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import PDFLib from "./PDFLib";
 
 export default function usePDFreader (_url) {
-    const [PDFLib, setPDFLib] = useState(null);
     const [pdfValues, setPdfValues] = useState({
         doc: null,
         url: _url,
@@ -15,16 +15,8 @@ export default function usePDFreader (_url) {
                     setPdfValues({...pdfValues, doc});
             });
         }
-    },[pdfValues, docId, PDFLib]);
+    },[pdfValues, docId]);
 
-    useEffect(() => {
-        (async () => {
-            await import('https://mozilla.github.io/pdf.js/build/pdf.js');
-            const lib = window['pdfjs-dist/build/pdf']
-            lib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-            setPDFLib(lib);
-        })();
-    });
 
     return {
         pdfDoc: pdfValues.doc,

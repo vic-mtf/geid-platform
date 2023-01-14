@@ -17,7 +17,8 @@ export default function Reader ({url}) {
                 overflow: 'auto',
                 width: '100%',
                 scrollBehavior: 'smooth',
-                position: "relative"
+                position: "relative",
+                display: 'flex',
             }}
             ref={rootRef}
         >

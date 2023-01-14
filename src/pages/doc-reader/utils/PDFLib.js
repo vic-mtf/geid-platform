@@ -1,5 +1,5 @@
-import 'https://mozilla.github.io/pdf.js/build/pdf.js';
-const PDFLib = window['pdfjs-dist/build/pdf'];
-PDFLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = process.env.PUBLIC_URL + '/scripts/pdf.worker.min.js';
+const PDFLib = pdfjs
 export const drawerWidth = 300;
 export default PDFLib;

@@ -17,7 +17,6 @@ import { updateValue } from '../../redux/user';
 
 export default function PictureEditor () {
     const user = useSelector(store => store.user);
-    const saveSrcRef = useRef();
     const [{loading}, refresh] = useAxios({
         url: '/api/auth/profil',
         headers: {
@@ -31,7 +30,6 @@ export default function PictureEditor () {
     const dispatch = useDispatch();
 
     const handleSenFile = async () => {
-        saveSrcRef.current = user?.image;
         const blob = await canvasToImage(
             imageRef.current,
             cropRef.current,
@@ -48,14 +46,6 @@ export default function PictureEditor () {
                 value: imageUrl?.toString()}
             ));
             setFile(null);
-            saveSrcRef.current  = null;
-          })
-          .catch(() => {
-            dispatch(updateValue({
-                key: 'image', 
-                value: saveSrcRef.current
-            }));
-            saveSrcRef.current  = null;
           });
     }
     useEffect(() => {
@@ -76,18 +66,6 @@ export default function PictureEditor () {
             );
          };
     }, [setFile]);
-
-    useEffect(() => {
-        if(file && !saveSrcRef.current) 
-            saveSrcRef.current = user?.image;
-        else 
-            saveSrcRef.current = null;
-        if(saveSrcRef.current && file) 
-            dispatch(updateValue({
-                key: 'image', 
-                value: null
-            }));
-    },[file, dispatch, user?.image]) 
 
     return (
         <Dialog 
