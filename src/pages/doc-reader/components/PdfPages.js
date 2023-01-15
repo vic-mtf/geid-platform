@@ -1,5 +1,5 @@
-import { Stack } from "@mui/material";
-import { useMemo, useState } from "react";
+import { CircularProgress, Stack } from "@mui/material";
+import React, { useMemo, useState } from "react";
 import Page from "./Page";
 
 export default function PdfPages ({numPage, pdfDoc, zoom, rootRef}) {
@@ -17,16 +17,17 @@ export default function PdfPages ({numPage, pdfDoc, zoom, rootRef}) {
         return _pages;
     }, [numPage, pdfDoc, loadingPageNum]);
     const scale = useMemo(() => zoom / 100, [zoom]);
+    const loading = useMemo(() => typeof numPage !== 'number', [numPage]);
 
     return( 
         <Stack
             spacing={scale}
             display="flex"
-            //flex={1}
             alignItems="center"
             height="100%"
             width="100%"
         >
+            <LoadingWrapper loading={loading}>
             {pages.map((pageProps, index) => (
                 <Page
                     {...pageProps}
@@ -35,6 +36,26 @@ export default function PdfPages ({numPage, pdfDoc, zoom, rootRef}) {
                     rootRef={rootRef}
                 /> 
             ))}
+            </LoadingWrapper>
         </Stack>
     )
+}
+
+const LoadingWrapper = ({loading, children}) => {
+    return (
+        <React.Fragment>
+            {loading ? 
+            (
+            <Stack
+                display="flex"
+                flex={1}
+                alignItems="center"
+                justifyContent="center"
+            >
+                <CircularProgress size={25} color="inherit"/>
+            </Stack>
+            ): children
+            }
+        </React.Fragment>
+    )   
 }

@@ -1,18 +1,18 @@
 import React from 'react';
-import { Box as MuiBox, Alert, AlertTitle } from '@mui/material';
+import { Box as MuiBox, Alert } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
 import Box from '../../components/Box';
 import Typography from '../../components/Typography';
 import ErrorFooter from './ErrorFooter';
-//import { Link } from 'react-router-dom';
+import Header from './Header';
 
 export default function ErrorBoundary (props) {
     const classes = useStyles();
     return (
         <Box className={classes.container}>
+            <Header/>
             <MuiBox className={classes.messageBox}>
                 <Alert severity="error">
-                    <AlertTitle>Une erreur est survenue </AlertTitle>
                     <Typography>
                         <b>Geid</b> a cessé de fonctionner en raison 
                         d'une manipulation incorrecte ou d'un problème 
@@ -35,19 +35,6 @@ const useStyles = makeStyles((theme) =>
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    messageBox: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: 50,
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: 5,
-        flexDirection: 'column',
-        backgroundColor: theme.palette.background.paper + theme.customOptions.opacity,
-        backdropFilter: `blur(${theme.customOptions.blur})`,
-        boxShadow: theme.shadows[1],
-        maxWidth: 500,
     },
     footer: {
         display: 'flex',

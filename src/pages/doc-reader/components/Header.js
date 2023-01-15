@@ -5,6 +5,8 @@ import {
     Typography, 
     Slide,
     Box,
+    Backdrop,
+    CircularProgress,
 } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
@@ -14,6 +16,7 @@ import { useRootRef } from '..';
 import { Link } from 'react-router-dom';
 import printJS from 'print-js';
 import Options, { DarkThemeProvider } from './Options';
+import download from '../../../utils/download';
 
 export default function Header ({
     name, 
@@ -26,6 +29,7 @@ export default function Header ({
     const [show, setShow] = useState(true);
     const [isEnter, setIsEnter] = useState(false);
     const oldValueShow = useRef(show);
+    const [printLoading, setPrintLoading] = useState(false);
     const rootRef = useRootRef();
     let timer = useRef();
 
@@ -62,59 +66,75 @@ export default function Header ({
     }, [show, isEnter, rootRef]);
 
     return (
-        <Box
-            onMouseEnter={() => {
-                setShow(true);
-                setIsEnter(true);
-              }}
-            onMouseLeave={() => {
-                setShow(true);
-                setIsEnter(false);
-            }}
-        >     
-            <Slide direction='down' in={show}>
-                <CustomAppBar 
-                position="fixed"
-                open={!!open}
-                sx={{
-                    background: theme => `linear-gradient(
-                        ${theme.palette.primary.main} 10%, 
-                        transparent)`
+        <React.Fragment>
+            <Box
+                onMouseEnter={() => {
+                    setShow(true);
+                    setIsEnter(true);
                 }}
-                >
-                <Toolbar>
-                    <DarkThemeProvider>
-                        <IconButton size='small' LinkComponent={Link} to="/" onClick={onClose}>
-                            <ArrowBackRoundedIcon fontSize='small'/>
-                        </IconButton>
-                        <Typography variant="body2" sx={{mx:1, flexGrow: 1}}>{name}</Typography>
-                        <IconButton 
-                            size='small' 
-                            sx={{mr:1}} 
-                            onClick={() => printJS({ printable: url, type: 'pdf'})}
-                        >
-                            <LocalPrintshopRoundedIcon fontSize='small'/>
-                        </IconButton>
-                        <IconButton size='small' sx={{mr:1}}
-                            onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.download = name?.toString().toLowerCase().replace(/\s/,'_') + '.pdf';
-                                link.click();
-                            }}
-                        >
-                            <GetAppRoundedIcon fontSize='small'/>
-                        </IconButton>
-                    </DarkThemeProvider>
-                    <Options
-                        handleDrawerOpen={handleDrawerOpen}
-                        handleDrawerClose={handleDrawerClose}
-                        open={open}
-                        url={url}
-                    />
-                </Toolbar>
-                </CustomAppBar>
-            </Slide>
-        </Box>
+                onMouseLeave={() => {
+                    setShow(true);
+                    setIsEnter(false);
+                }}
+            >     
+                <Slide direction='down' in={show}>
+                    <CustomAppBar 
+                    position="fixed"
+                    open={!!open}
+                    sx={{
+                        background: theme => `linear-gradient(
+                            ${theme.palette.primary.main} 10%, 
+                            transparent)`
+                    }}
+                    >
+                    <Toolbar>
+                        <DarkThemeProvider>
+                            <IconButton size='small' LinkComponent={Link} to="/" onClick={onClose}>
+                                <ArrowBackRoundedIcon fontSize='small'/>
+                            </IconButton>
+                            <Typography variant="body2" sx={{mx:1, flexGrow: 1}}>{name}</Typography>
+                            <IconButton 
+                                size='small' 
+                                sx={{mr:1}} 
+                                onClick={() => 
+                                    printJS({ 
+                                        printable: url, 
+                                        type: 'pdf',
+                                        onLoadingStart: () => setPrintLoading(true),
+                                        onLoadingEnd: () => setPrintLoading(false),
+                                    })
+                                }
+                            >
+                                <LocalPrintshopRoundedIcon fontSize='small'/>
+                            </IconButton>
+                            <IconButton size='small' sx={{mr:1}}
+                                onClick={() => download({url, name: name + '.pdf'})}
+                            >
+                                <GetAppRoundedIcon fontSize='small'/>
+                            </IconButton>
+                        </DarkThemeProvider>
+                        <Options
+                            handleDrawerOpen={handleDrawerOpen}
+                            handleDrawerClose={handleDrawerClose}
+                            open={open}
+                            url={url}
+                        />
+                    </Toolbar>
+                    </CustomAppBar>
+                </Slide>
+            </Box>
+            <Backdrop
+                open={printLoading}
+                sx={{
+                    bgcolor: theme => theme.palette.background.paper +
+                    theme.customOptions.opacity,
+                    backdropFilter: theme => `blur(${theme.customOptions.blur})`,
+                    zIndex: theme => theme.zIndex.drawer + 1000,
+                }}
+                children={
+                    <CircularProgress size={25} color="inherit"/>
+                }
+            />
+        </React.Fragment>                    
     )
 }
