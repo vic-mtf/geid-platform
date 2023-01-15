@@ -39,9 +39,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && zip -r build.zip build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "scp build.zip root@137.184.96.252:server/GEID_Valise/public/geid-platform/platform"
   },
   "eslintConfig": {
     "extends": [
