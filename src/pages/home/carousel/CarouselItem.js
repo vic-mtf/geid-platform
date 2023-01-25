@@ -27,16 +27,30 @@ export default function CarouselItem ({
                 {...otherProps}
                 loading={loading || 'lazy'}
                 component="img"
-                height={200}
+                sx={{
+                    height: {
+                        xs: 250,
+                        md: 220,
+                        lg: 200,
+                    }
+                }}
             />
             <MuiBox
                 position="absolute"
-                width="60%"
-                height={200}
                 display="flex"
                 flexDirection="column"
                 sx={{
-                    bgcolor: theme => theme.palette.background.paper + '99'
+                    bgcolor: theme => theme.palette.background.paper + '99',
+                    width: {
+                        xs: '100%',
+                        md: '70%',
+                        lg: '60%'
+                    },
+                    height: {
+                        xs: 250,
+                        md: 220,
+                        lg: 200,
+                    }
                 }}
             >  
                 <MuiBox

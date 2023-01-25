@@ -3,7 +3,9 @@ import {
     CardMedia, 
     Slide, 
     Stack, 
-    TextField
+    TextField,
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
 import Box from '../../../components/Box';
 import _identity from '../../../assets/kisspng-teplogidrostroy-password.webp';
@@ -12,53 +14,23 @@ import Typography from '../../../components/Typography';
 import PasswordInputs from './PasswordInputs';
 import regExp from '../../../utils/regExp.json';
 
-export default function AccountInformation ({email, number, password, checkError}) {
+export default function AccountInformation (props) {
+    const theme = useTheme();
+    const maches = useMediaQuery(theme.breakpoints.only('xs'));
+    
     return (
-        <Stack display="flex" flex={1} direction="row">
-            <Slide in direction="right">
-                <Stack 
-                    flex={1} 
-                    component={Stack} 
-                    spacing={1}
-                    justifyContent="center"
-                    alignItems="center"
-                    mx={2}
-                >
-                    <Box>
-                        <InputControler 
-                            type="email" 
-                            valueRef={email} 
-                            regExp={new RegExp(regExp.email)}
-                            defaultValue={email.current}
-                            externalError={checkError('email')}
-                        >
-                            <TextField
-                                label="Adresse email"
-                                margin="normal"
-                                type="email"
-                                name="email"
-                            />
-                        </InputControler>
-                        <InputControler 
-                            type="tel" 
-                            valueRef={number} 
-                            regExp={new RegExp(regExp.phone, 'mg')}
-                            defaultValue={number.current}
-                            externalError={checkError('number')}
-                        >
-                            <TextField
-                                type="tel"
-                                label="Numéro de téléphone"
-                                margin="normal"
-                                name="number"
-                            />
-                        </InputControler>
-                    </Box>
-                    <Box>
-                        <PasswordInputs valueRef={password} externalError={checkError('password')}/>
-                    </Box>
-                </Stack>
-            </Slide>
+        <Stack 
+            display="flex" 
+            direction="row"
+            sx={{...maches ? {
+                maxHeight: '70vh',
+                overflow: 'auto',
+                mb: 1,
+            }: {
+                flex: 1
+            }}}
+        >
+            {!maches && <Fields {...props} />}
             <Box 
                 flex={1} 
                 justifyContent="center" 
@@ -96,7 +68,8 @@ export default function AccountInformation ({email, number, password, checkError
                 >
                     Vos renseignements relatifs à l'identification du compte.
                 </Typography>
-                <Typography color="text.secondary">
+                {maches && <Fields {...props} />}
+                <Typography color="text.secondary"  paragraph>
                     Le mot de passe ne peut contenir qu'un minimum de 6 caractères,
                     comprenant des lettres (majuscules ou minuscules), 
                     au moins un chiffre et/ou un caractère spécial (!$?...).
@@ -105,3 +78,53 @@ export default function AccountInformation ({email, number, password, checkError
         </Stack>
     )
 }
+
+const Fields = ({email, number, password, checkError}) => (
+    <Slide in direction="right">
+        <Stack 
+            flex={1} 
+            component={Stack} 
+            spacing={1}
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+                mx: { md: 2, xs: 0 },
+                width:'100%'
+            }}
+        >
+            <Box>
+                <InputControler 
+                    type="email" 
+                    valueRef={email} 
+                    regExp={new RegExp(regExp.email)}
+                    defaultValue={email.current}
+                    externalError={checkError('email')}
+                >
+                    <TextField
+                        label="Adresse email"
+                        margin="normal"
+                        type="email"
+                        name="email"
+                    />
+                </InputControler>
+                <InputControler 
+                    type="tel" 
+                    valueRef={number} 
+                    regExp={new RegExp(regExp.phone, 'mg')}
+                    defaultValue={number.current}
+                    externalError={checkError('number')}
+                >
+                    <TextField
+                        type="tel"
+                        label="Numéro de téléphone"
+                        margin="normal"
+                        name="number"
+                    />
+                </InputControler>
+            </Box>
+            <Box>
+                <PasswordInputs valueRef={password} externalError={checkError('password')}/>
+            </Box>
+        </Stack>
+    </Slide>
+)

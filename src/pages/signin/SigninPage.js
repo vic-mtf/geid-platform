@@ -6,7 +6,8 @@ import {
     Fade,
     Backdrop,
     Dialog,
-    Alert
+    Alert,
+    useMediaQuery
 } from '@mui/material';
 import Box from '../../components/Box';
 import Content from './content/Content';
@@ -23,7 +24,10 @@ export default function SigninPage() {
     const [{loading}, refresh] = useAxios({},{manual: true});
     const [finished, /*setFinished*/] = useState(false);
     const dispatch = useDispatch();
-    
+    const maches = useMediaQuery('@media (min-width:0px) and (max-width: 410px)');
+
+    console.log(maches);
+
     useEffect(() => {
         let handleAutoConnexion = event => {
         const { user } = event.detail;
@@ -56,8 +60,11 @@ export default function SigninPage() {
         >
             <MuiBox
                 height={460}
-                width={400}
                 display="flex"
+                sx={{
+                    width: maches ? 'auto' : 400,
+                    mx: maches ? 1 : 0,
+                }}
             > 
                 <Card
                     sx={{

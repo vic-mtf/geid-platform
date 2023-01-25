@@ -38,16 +38,16 @@ export default function Footer () {
                     display="flex"
                 >
                   <Grid container>
-                    <Grid item md={3} flex={1} justifyContent="center" alignItems="center" display="flex" >
+                    <Grid item xs={12} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex" >
                         <Logos/>
                     </Grid> 
-                    <Grid item md={3} flex={1}justifyContent="center" alignItems="center" display="flex">
+                    <Grid item xs={6} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
                         <ListRelatedLinks/>
                     </Grid> 
-                    <Grid item md={3} flex={1} justifyContent="center" alignItems="center" display="flex">
+                    <Grid item xs={6} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
                         <OtherLinks/>
                     </Grid> 
-                    <Grid item md={3} flex={1} justifyContent="center" alignItems="center" display="flex">
+                    <Grid item lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
                         <Stack
                             flex={1} 
                             justifyContent="center" 
@@ -61,12 +61,14 @@ export default function Footer () {
                                 src={_logo_dantic}
                                 height={100}
                                 draggable={false}
-                                sx={{ userSelect: 'none'}}
+                                sx={{ userSelect: 'none', mt: { xs: 5, lg: 0}}}
                             />
                             <Typography 
                                 align="center" 
                                 variant="caption" 
                                 color="text.secondary"
+                                px={2}
+                                pb={1}
                             >
                                 Direction Archives et Nouvelles 
                                 Technologie de l'Information et 

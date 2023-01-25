@@ -95,7 +95,7 @@ export default function DeconnectDialog () {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Fermer</Button>
+          <Button onClick={() => setOpen(false)}>Annuler</Button>
           <Button 
             variant='outlined'
             onClick={handleDeconnecte} autoFocus>

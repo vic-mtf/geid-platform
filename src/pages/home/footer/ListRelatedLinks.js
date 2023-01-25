@@ -24,13 +24,14 @@ export default function ListRelatedLinks () {
                 Liens connexes
             </Typography>
             }
-        sx={{width: 200}}
+        sx={{width: { xs: 170, lg: 200 }}}
     > 
         {relatedLinks.map((link, index, links) => (
             <React.Fragment key={index} >
                 <ListItemButton
                     sx={styles.listItemButton} 
                     LinkComponent="a" 
+                    target="_blank"
                     href={link.href}
                 >
                     <ListItemText

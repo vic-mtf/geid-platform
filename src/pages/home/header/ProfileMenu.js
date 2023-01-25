@@ -35,6 +35,14 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                     backdropFilter: theme => `blur(${theme.customOptions.blur})`
                 }
             }}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
         >
           <CardContent
             sx={{

@@ -17,6 +17,12 @@ export default function Logos() {
             display="flex" 
             flexDirection="column"
             spacing={2}
+            sx={{
+                mb: {
+                    xs: 5,
+                    lg: 0,
+                }
+            }}
         >
             <MuiBox
                 component="img"

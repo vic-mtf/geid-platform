@@ -28,7 +28,9 @@ export default function PubItem ({desc, description, src, uri, title, srcSet}) {
                         WebkitBoxOrient: "vertical",
                     },
                     "&:hover": {
-                        position: 'absolute',
+                        position: {
+                            lg: 'absolute',
+                        },
                         "& .typography-content" : {
                             height: 'auto',
                             display: "flex",

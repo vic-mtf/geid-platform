@@ -27,9 +27,17 @@ export default function AppsMenu ({anchorEl, onClose}) {
                     theme.customOptions.opacity,
                     border: theme => `1px solid ${theme.palette.divider}`,
                     height: 400,
-                    width: 350,
+                    width: 300,
                     backdropFilter: theme => `blur(${theme.customOptions.blur})`
                 }
+            }}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
             }}
         >
           <CardContent component="div">
@@ -72,8 +80,8 @@ export default function AppsMenu ({anchorEl, onClose}) {
                                             srcSet={app.src}
                                             draggable={false}
                                             sx={{
-                                                height: 60,
-                                                width: 60,
+                                                height: 50,
+                                                width: 50,
                                             }}
                                     />
                                     <Typography

@@ -29,13 +29,13 @@ export default function MainHeader () {
                 />
             </MuiBox>
             <MuiBox component={Grid} item className={classes.gridItem}  xs={12} md={4}>
-            <MuiBox
-                component="img"
-                src={_logo_gied}
-                className={[classes.gied]}
-                draggable={false}
-                sx={{ userSelect: 'none'}}
-            />
+                <MuiBox
+                    component="img"
+                    src={_logo_gied}
+                    className={[classes.gied]}
+                    draggable={false}
+                    sx={{ userSelect: 'none'}}
+                />
             </MuiBox>
             <Hidden smDown>
                 <MuiBox 

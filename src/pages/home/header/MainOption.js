@@ -2,7 +2,9 @@ import {
     Chip, 
     IconButton, 
     Tooltip,
-    Avatar
+    Avatar,
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -79,12 +81,14 @@ const ProfileMenuButton  = () => {
     const anchorRef = useRef();
     const user = useSelector(store => store.user);
     const fullname = `${user.lastname} ${user.firstname}`;
-
+    const shotname = `${user.lastname?.charAt(0)}${user.firstname?.charAt(0)}`;
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.only('xs'));
     return (
         <React.Fragment>
             <Tooltip title="Profil" arrow>
                     <Chip
-                        label={fullname}
+                        label={matches ? shotname :fullname}
                         ref={anchorRef}
                         onClick={() => {
                             setAnchorEl(anchorEl ? null : anchorRef.current);

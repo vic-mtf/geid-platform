@@ -9,7 +9,7 @@ export default function Books () {
         <Grid container spacing={.5}>
             {
                 booksList.map((book, index) => (
-                    <Grid key={index} item xs={12}  md={3} lg={12/5}>
+                    <Grid key={index} item xs={12} sm={6}  md={4} lg={12/5}>
                         <BookPlan
                             coverUrl={book.image}
                             coverSrcSet={book.image}

@@ -24,13 +24,14 @@ export default function OtherLinks () {
                     Autres liens
                 </Typography>
                 }
-            sx={{width: 200}}
+                sx={{width: { xs: 170, lg: 200 }}}
         > 
             {otherLinks.map((link, index, links) => (
                 <React.Fragment key={index} >
                     <ListItemButton
                         sx={styles.listItemButton} 
                         LinkComponent="a" 
+                        target="_blank"
                         href={link.href}
                     >
                         <ListItemText

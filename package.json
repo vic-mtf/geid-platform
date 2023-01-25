@@ -42,7 +42,7 @@
     "build": "rm -r build build.zip;react-scripts build && zip -r build.zip build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "scp build.zip root@137.184.96.252:server/GEID_Valise/public/geid-platform/platform"
+    "deploy": "rm -r build.zip build;react-scripts build;zip -r build.zip build && scp build.zip root@137.184.96.252:server/GEID_Valise/public/geid-platform/platform"
   },
   "eslintConfig": {
     "extends": [

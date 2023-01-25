@@ -10,7 +10,17 @@ export default function MainTab() {
 
     return (
         <React.Fragment>
-            <Tabs value={value} onChange={handleChangeTab} sx={{ flexGrow: 1 }}>
+            <Tabs 
+                value={value} 
+                onChange={handleChangeTab} 
+                sx={{ 
+                    flexGrow: 1,
+                    width: { xs: 100 },
+                    mr: 1,
+                }}
+                scrollButtons="auto"
+                variant="scrollable"
+            >
                 {tabs.map(tab => (
                     ((connected && tab.access === 'private') || tab.access === 'public') &&
                     <Tab

@@ -102,7 +102,7 @@ export default function Content({loading, refresh}) {
                 {step === 2 && <AccountInformation {...accountInfos} />}
                 {step === 3 && <CheckInformation {...checkInfos} />}
             </Box>
-            <Stack spacing={1} direction="row" display="flex">
+            <Stack spacing={1} direction="row" display="flex" sx={{px: {xs: 2, sm: 0}}}>
                 <MuiBox display="flex" flexGrow={1}>
                     <Button
                         onClick={() => step > 1 ? 

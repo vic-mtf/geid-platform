@@ -1,4 +1,4 @@
-import { Card, Box as MuiBox, CardContent, CardMedia, useTheme } from "@mui/material";
+import { Card, Box as MuiBox, CardContent, CardMedia, useTheme, useMediaQuery } from "@mui/material";
 import { Stack } from "@mui/system";
 import { BookCover } from "book-cover-3d";
 import { extractColors } from "extract-colors";
@@ -10,6 +10,8 @@ import DocReader from "../../doc-reader";
 export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}) {
     const [openReader, setOpenReader] = useState(false);
     const _url = useMemo(() => url || src || uri, [url, src, uri]);
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.only('xs'));
 
     return (
         <React.Fragment>
@@ -25,6 +27,7 @@ export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}
                 <CardContent>
                     <Stack
                         direction="row"
+                        spacing={matches ? 2 : 1}
                     >
                         <MuiBox>
                             <BookCoverColor 
@@ -35,7 +38,6 @@ export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}
                         <MuiBox
                             display="flex"
                             flex={1}
-                            pl={1}
                         >
                             <Stack
                                 display="flex"
@@ -69,8 +71,8 @@ export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}
                                     </Typography>
                                 </MuiBox>
                                 <MuiBox
-                                display="flex"
-                                justifyContent="center"
+                                    display="flex"
+                                    justifyContent="center"
                                 >
                                     <Button 
                                         fullWidth 
@@ -97,18 +99,19 @@ export default function BookPlan ({src, uri, url,  title, coverSrcSet, coverUrl}
 const BookCoverColor = ({src, srcSet}) => {
     const [color, setColor] = useState(null);
     const theme = useTheme();
-
+    const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+    const pc = 1.3;
+    
     useEffect(() => {
         extractColors(src).then(colors => {
             const [{hex: color}] = colors;
             setColor(color);
         });
     }, [src]);
-
     return (
         <BookCover
-            height={140}
-            width={95}
+            height={ matches ? 140 * pc : 140 }
+            width={matches ? 95 * pc : 95}
             thickness={20}
             rotate={35}
             transitionDuration={.5}

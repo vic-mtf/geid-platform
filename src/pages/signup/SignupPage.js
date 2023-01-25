@@ -6,25 +6,32 @@ import {
     Fade,
     Backdrop,
     Dialog,
-    Alert
+    Alert,
+    useMediaQuery
 } from '@mui/material';
 import Box from '../../components/Box';
 import Content from './content/Content';
 import Header from './header/Header';
 import useAxios from '../../utils/useAxios';
 import ErrorNetwork from '../error/ErrorNetwork';
-//import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import Link from '../../components/Link';
 
 export default function SignupPage() {
     const [{loading, error}, refresh] = useAxios({method:'post'},{manual: true});
     const [finished, /*setFinished*/] = useState(false);
-    //const dispatch = useDispatch();
-    
+    const maches = useMediaQuery('@media (min-width:0px) and (max-width: 760px)')
     return (
         <Box justifyContent="center" alignItems="center" >
-            <MuiBox minHeight={500} width={750} display="flex"> 
+            <MuiBox 
+                minHeight={500} 
+                ///width={750} 
+                display="flex"
+                sx={{
+                    width: maches ? 'auto' : 750,
+                    mx: 1,
+                }}
+            > 
                 <Card
                     sx={{
                         bgcolor: theme => theme.palette.background.paper +
@@ -44,6 +51,10 @@ export default function SignupPage() {
                             display: 'flex',
                             flex: 1,
                             flexDirection: 'column',
+                            px:{
+                                xs: 0,
+                                sm: 2
+                            }
                         }}
                     >
                         <Header/>

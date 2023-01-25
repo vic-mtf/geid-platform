@@ -22,6 +22,7 @@ export default function HomePage () {
     const navigateTo = useNavigate();
     const dispatch = useDispatch();
     const connected = useSelector(store => store.user.connected);
+    
     useEffect(() => {
         let timer;
         let handleAutoConnexion;
