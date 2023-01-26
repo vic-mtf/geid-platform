@@ -26,12 +26,16 @@ const app = createSlice({
         setUser (state, actions) {
             state.user = actions.payload;
         },
-        removeUser(state, actions) {
+        removeUsers(state, actions) {
             const index = actions.payload;
             if(typeof index === 'number') 
                 delete state.users[index];
             else state.user = null;
+        },
+        removeUser(state) {
+            state.user = null;
         }
+
     }
 });
 

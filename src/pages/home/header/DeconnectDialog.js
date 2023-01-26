@@ -9,7 +9,7 @@ import {
     FormControlLabel,
     Checkbox
 } from '@mui/material';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '../../../components/Button';
 import Typography from '../../../components/Typography';
@@ -19,14 +19,17 @@ import { deconnected } from '../../../redux/user';
 export default function DeconnectDialog () {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
-    const inputRef = useRef();
+    const [checked, setChecked] = useState(false);
 
-    const handleDeconnecte = useCallback(() => {
+    const handleDeconnecte = () => {
         dispatch(deconnected());
-       if(inputRef.current?.checked) 
+        if(checked) { 
             dispatch(removeUser());
-       setOpen(false);
-    },[dispatch]);
+            localStorage.clear();
+            sessionStorage.clear();
+        }
+        setOpen(false);
+    };
 
     useEffect(() => {
         const handleOpen = () => setOpen(true);
@@ -80,7 +83,7 @@ export default function DeconnectDialog () {
             <FormControl sx={{display: 'inline-block'}}>
                 <FormControlLabel
                     value="left"
-                    control={<Checkbox inputRef={inputRef} size="small" />}
+                    control={<Checkbox checked={checked} onChange={(event, value) => setChecked(value)} size="small" />}
                     label={
                         <Typography
                             variant="body2"

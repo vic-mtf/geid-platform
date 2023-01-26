@@ -26,8 +26,6 @@ export default function SigninPage() {
     const dispatch = useDispatch();
     const maches = useMediaQuery('@media (min-width:0px) and (max-width: 410px)');
 
-    console.log(maches);
-
     useEffect(() => {
         let handleAutoConnexion = event => {
         const { user } = event.detail;

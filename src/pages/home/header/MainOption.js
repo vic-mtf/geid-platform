@@ -9,16 +9,13 @@ import {
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Button";
-import { decrypt } from '../../../utils/crypt';
 import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
 import AppsMenu from "./AppsMenu";
 import ProfileMenu from "./ProfileMenu";
 
 export default function MainOption () {
     const connected = useSelector(store => store.user?.connected);
-    const userSave = useSelector(store => store?.app?.user && 
-        decrypt(store.app?.user)
-        );
+    const userSave = useSelector(store => store?.app?.user);
    
     return (
         <React.Fragment>
