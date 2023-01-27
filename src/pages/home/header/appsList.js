@@ -37,7 +37,7 @@ const appsList = [
         permissions: [],
     }, 
     {
-        name: 'Espace de personnel',
+        name: 'Espace personnel',
         src: _workspace_logo,
         href: '/apps/workspaces',
         permissions: ['workspace'],
