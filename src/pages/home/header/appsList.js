@@ -12,12 +12,6 @@ const appsList = [
         href: '/apps/archives',
         permissions: ['archives']
     },
-    // {
-    //     name: 'Service d\'archivage',
-    //     src: _arcives_server_logo,
-    //     href: '/apps/archivingservice',
-    //     permissions: ['archives']
-    // },
     {
         name: 'Lisolo na budget',
         src: _group_speak_logo,
