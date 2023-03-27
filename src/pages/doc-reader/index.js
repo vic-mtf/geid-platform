@@ -44,9 +44,7 @@ export default function DocReader ({
         >
             <RootRef.Provider value={backdropRef}>
                 <RefProvider>
-                    <Box 
-                        sx={{ display: 'flex', bgcolor: 'red'}}
-                    >
+                    <Box display="flex">
                         <CssBaseline />
                         <Header 
                             name={name || "doc_name"}

@@ -2,13 +2,16 @@ import { useMemo, useRef } from "react";
 import usePDFreader from "../utils/usePDFreader";
 //import url_pdf from "../../home/books/docs/circulaire_elabo_budget2022.pdf";
 import PdfPages from "./PdfPages";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "./Footer";
 
 export default function Reader ({url}) {
     const { pdfDoc, /*setURL*/ } = usePDFreader(url);
     const numPages = useMemo(() => pdfDoc?._pdfInfo.numPages, [pdfDoc]);
     const rootRef = useRef();
+    const theme = useTheme();
+    const matchesSmall = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
+    const matchesMedium = useMediaQuery(theme.breakpoints.only('md'));
 
     return (
         <Box
@@ -25,7 +28,7 @@ export default function Reader ({url}) {
             <PdfPages
                 numPage={numPages}
                 pdfDoc={pdfDoc}
-                zoom={100}
+                zoom={ matchesSmall ? 65 : matchesMedium ? 80 : 150}
                 rootRef={rootRef}
             /> 
             <Footer

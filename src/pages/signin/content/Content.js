@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import Account from './Account';
 import { useSelector } from 'react-redux';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { keyBy, merge } from 'lodash';
 import Box from '../../../components/Box';
 import CheckEmail from './CheckEmail';
 import CheckPassword from './CheckPassword';
@@ -22,7 +23,6 @@ export default function Content ({loading, refresh}) {
     const emailRef = useRef();
     const passwordRef = useRef();
     const emailValueRef = useRef();
-
     const { 
         email: defaultEmail, 
         password: defaultPassword, 
@@ -33,13 +33,13 @@ export default function Content ({loading, refresh}) {
         if(errorMessage) setErrorMesssage(null);
     }, [errorMessage])
 
-    const handleSendData = () => {
-        const [email, password] = [
-            emailRef.current?.value?.trim(), 
-            passwordRef.current?.value
-        ];
-        if(email) emailValueRef.current = email;
+    const handleSendData = event => {
+        event?.preventDefault();
         handleCleanErrorMessage();
+        const email = emailRef.current?.value?.trim();
+        const password = passwordRef.current?.value;
+
+        if(email) emailValueRef.current = email;
         if(validateEmail(defaultEmail || email)) {
             if(defaultEmail) {
                 if(!password.trim())
@@ -57,6 +57,17 @@ export default function Content ({loading, refresh}) {
                 })
                 .then(result => {
                     const {data} = result;
+                    const writeAuth = data?.auth?.readNWrite?.map(auth => ({
+                            type: auth,
+                            write: !!data?.auth?.readNWrite
+                            ?.find(_auth => _auth === auth),
+                    }));
+                    const readAuth = data?.auth?.readOnly?.map(auth => ({
+                            type: auth,
+                            write: !!data?.auth?.readOnly
+                            ?.find(_auth => _auth === auth),
+                    }));
+
                     const user = encrypt({
                         id: data.userId,
                         token: data.token,
@@ -69,7 +80,10 @@ export default function Content ({loading, refresh}) {
                         image: data.userImage || null,
                         grade: data?.userGrade?.grade,
                         role: data?.userGrade?.role,
-                        permissions: data?.userGrade?.permission
+                        permissions: merge( 
+                            keyBy(writeAuth, 'type'), 
+                            keyBy(readAuth, 'type')
+                        ),
                     });
   
                     const customEnvent = new CustomEvent('_connected', {
@@ -89,16 +103,28 @@ export default function Content ({loading, refresh}) {
                     );
                 });
 
-            } else refresh({})
-            .then(result => {
-                    navigateTo('?' + queryString.stringify({email, password}));
+            } else refresh({
+                url: '/api/auth/check',
+                data: {type: 'email', email},
+                method: 'post',
+            })
+            .then(({data}) => {
+                    if(data?.found)
+                        navigateTo('?' + queryString.stringify({email, password}));
                 })
             .catch(error => {
+                if(error?.response?.data?.found === false)
                     setErrorMesssage(
                         `Compte introuvable, 
                         cette adresse ne possède pas de compte à la Geid, 
                         vérifiez pour essayer à nouveau.`
-                    )
+                    );
+                else
+                    setErrorMesssage(
+                        `Un problème est survenu, 
+                        Nous avons des difficultés à charger vos données, 
+                        vérifier que vous êtes connecté à l'internet.`
+                    );
                 });
         } 
         else setErrorMesssage(
@@ -112,10 +138,7 @@ export default function Content ({loading, refresh}) {
             flex={1} 
             flexDirection="column"
             component="form"
-            onSubmit={event => {
-                event.preventDefault();
-                handleSendData();
-            }}
+            onSubmit={handleSendData}
         >
             {   ( 
                 (usersession === undefined && defaultEmail === undefined) || 
@@ -126,6 +149,7 @@ export default function Content ({loading, refresh}) {
                 <TabLevel show={usersession && user} >
                     <Account
                         user={user}
+                        refresh={refresh}
                     />
                 </TabLevel>
                 <TabLevel show={defaultEmail === null}>
@@ -133,7 +157,7 @@ export default function Content ({loading, refresh}) {
                         email={emailValueRef.current}
                         emailRef={emailRef} 
                         errorMessage={errorMessage}
-                        cleanErrorMessage={handleCleanErrorMessage}
+                        refresh={refresh}
                     />
                 </TabLevel>
                 <TabLevel show={!!defaultEmail} >

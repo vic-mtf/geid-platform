@@ -19,6 +19,7 @@ export default function Page ({
     const globalRootRef = useRootRef();
     const pageRef = useRef(null);
     const loading = useMemo(() => loadingPageNum === num, [loadingPageNum, num]);
+    
     useEffect(() => {
         const [{current: canvas}, {current: layer}] = [canvasRef, layerRef];
         if(loadingPageNum === num) 

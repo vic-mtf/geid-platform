@@ -10,7 +10,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         duration: theme.transitions.duration.leavingScreen,
       }),
       display: 'flex',
-      flex: 1,
+      //flex: 1,
       justifyContent: 'center',
       background: 'transparent',
       overflow: 'hidden',

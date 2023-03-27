@@ -8,11 +8,12 @@ import {
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Typography from '../../../components/Typography';
-import inArray from '../../../utils/inArray';
+import checkAuth from '../../../utils/checkAuth';
+//import inArray from '../../../utils/inArray';
 import appsList from './appsList';
 
 export default function AppsMenu ({anchorEl, onClose}) {
-    const permissions = useSelector(store => store?.user?.permissions || []);
+    const permissions = useSelector(store => store?.user?.permissions || {});
   
     return (
         <Menu 
@@ -49,7 +50,7 @@ export default function AppsMenu ({anchorEl, onClose}) {
             >Applications</Typography>
             <Grid container spacing={1} component="div" >
                 {appsList.map((app, index) => 
-                    inArray(
+                    checkAuth(
                        app.permissions,
                        permissions
                     ) && (

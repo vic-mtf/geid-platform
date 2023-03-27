@@ -22,7 +22,7 @@ const appsList = [
         name: 'Service de censure',
         src: _checklist_logo,
         href: '/apps/censorshipservice',
-        permissions: ['phototheque', 'bibliotheque', 'filmotheque'],
+        permissions: ['images', 'fimls', 'books'],
     },
     {
         name: 'Mediathèque',
@@ -34,7 +34,7 @@ const appsList = [
         name: 'Espace personnel',
         src: _workspace_logo,
         href: '/apps/workspaces',
-        permissions: ['workspace'],
+        permissions: ['work'],
     }
 ];
 

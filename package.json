@@ -20,6 +20,7 @@
     "chart.js": "^4.1.2",
     "crypto-js": "^4.1.1",
     "extract-colors": "^2.0.4",
+    "lodash": "^4.17.21",
     "pluralize": "^8.0.0",
     "print-js": "^1.6.0",
     "prop-types": "^15.8.1",

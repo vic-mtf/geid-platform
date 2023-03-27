@@ -22,20 +22,19 @@ import Link from '../../components/Link';
 
 export default function SigninPage() {
     const [{loading}, refresh] = useAxios({},{manual: true});
-    const [finished, /*setFinished*/] = useState(false);
+    const [finished, setFinished] = useState(false);
     const dispatch = useDispatch();
     const maches = useMediaQuery('@media (min-width:0px) and (max-width: 410px)');
 
     useEffect(() => {
         let handleAutoConnexion = event => {
-        const { user } = event.detail;
+            const { user } = event.detail;
             dispatch(setUser(user));
-            //setFinished(true);
+            setFinished(true);
             localStorage.setItem(
-                '_auto_connexion_data', 
-                user
+                '_auto_connexion_data', user
             );
-            window.close();
+           window.close();
         };
         document.getElementById('root')
         .addEventListener(
@@ -76,7 +75,13 @@ export default function SigninPage() {
                     }}
                 >
                     <Fade in={loading}>
-                        <LinearProgress  sx={{position: 'absolute', width: "100%"}}/>
+                        <LinearProgress  
+                            sx={{
+                                position: 'absolute',
+                                width: "100%",
+                                zIndex: theme => theme.zIndex.drawer + 300,
+                            }}
+                        />
                     </Fade>
                     <CardContent
                         sx={{
