@@ -18,23 +18,23 @@ const appsList = [
         href: '/apps/lisolonabudget',
         permissions: []
     },
-    {
-        name: 'Service de censure',
-        src: _checklist_logo,
-        href: '/apps/censorshipservice',
-        permissions: ['images', 'fimls', 'books'],
-    },
+    // {
+    //     name: 'Service de censure',
+    //     src: _checklist_logo,
+    //     href: '/apps/censorshipservice',
+    //     permissions: [],
+    // },
     {
         name: 'Mediathèque',
         src: _media_logo,
         href: '/apps/medialibrary',
-        permissions: [],
+        permissions: ['library', 'image_library', 'film_library'],
     }, 
     {
         name: 'Espace personnel',
         src: _workspace_logo,
         href: '/apps/workspaces',
-        permissions: ['work'],
+        permissions: ['workspace'],
     }
 ];
 

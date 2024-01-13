@@ -1,9 +1,11 @@
-export default function checkAuth (authArray, permissions) {
-    let validate = false;
-    authArray?.forEach(auth => {
-        const permission = permissions[auth];
-        if(permission?.read || permission?.write)
-            validate = true;
-    });
-    return validate || authArray?.length === 0;
+export default function checkAuth (auth, permissions=[]) {
+    let validate = auth?.name === 'admin' || permissions?.length === 0;
+    console.log(validate);
+    if(!validate)
+        permissions.forEach(permission => {
+            const privileges = auth?.privileges;
+            if(privileges?.map(({ app }) => app)?.includes(permission))
+                validate = true;
+        });
+    return Boolean(validate);
 }

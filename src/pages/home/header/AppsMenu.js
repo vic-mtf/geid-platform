@@ -13,7 +13,7 @@ import checkAuth from '../../../utils/checkAuth';
 import appsList from './appsList';
 
 export default function AppsMenu ({anchorEl, onClose}) {
-    const permissions = useSelector(store => store?.user?.permissions || {});
+    const auth = useSelector(store => store?.user?.auth);
   
     return (
         <Menu 
@@ -50,10 +50,8 @@ export default function AppsMenu ({anchorEl, onClose}) {
             >Applications</Typography>
             <Grid container spacing={1} component="div" >
                 {appsList.map((app, index) => 
-                    checkAuth(
-                       app.permissions,
-                       permissions
-                    ) && (
+                    checkAuth(auth, app.permissions) && 
+                    (
                     <Grid 
                         item 
                         xs={4} 

@@ -56,7 +56,7 @@ export default function Content ({loading, refresh}) {
                     }
                 })
                 .then(result => {
-                    const {data} = result;
+                    const { data } = result;
                     const writeAuth = data?.auth?.readNWrite?.map(auth => ({
                             type: auth,
                             write: !!data?.auth?.readNWrite
@@ -67,8 +67,7 @@ export default function Content ({loading, refresh}) {
                             write: !!data?.auth?.readOnly
                             ?.find(_auth => _auth === auth),
                     }));
-
-                    const user = encrypt({
+                    const client = {
                         id: data.userId,
                         token: data.token,
                         email: data.userEmail,
@@ -80,20 +79,20 @@ export default function Content ({loading, refresh}) {
                         image: data.userImage || null,
                         grade: data?.userGrade?.grade,
                         role: data?.userGrade?.role,
-                        permissions: merge( 
-                            keyBy(writeAuth, 'type'), 
-                            keyBy(readAuth, 'type')
-                        ),
-                    });
+                        auth: data?.auth,
+                    };
+
+                    console.log(data);
+                    const user = encrypt(client);
   
-                    const customEnvent = new CustomEvent('_connected', {
+                    const customEvent = new CustomEvent('_connected', {
                         detail: {
                             user,
                             name: '_connected',
                         }
                     });
                     document.getElementById('root')
-                    .dispatchEvent(customEnvent);
+                    .dispatchEvent(customEvent);
                 })
                 .catch(error => {
                     setErrorMesssage(
