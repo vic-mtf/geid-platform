@@ -14,12 +14,7 @@ import Box from '../../../components/Box';
 import Link from '../../../components/Link';
 import Typography from '../../../components/Typography';
 
-export default function CheckPassword({
-    password, 
-    passwordRef, 
-    email, 
-    errorMessage,
-}) {
+export default function CheckPassword({ passwordRef, email, errorMessage }) {
     const [show, setShow] = useState(false);
 
     return (
@@ -36,17 +31,16 @@ export default function CheckPassword({
                         variant='body1'
                     >Bienvenue</Typography>
                     <Chip 
-                        avatar={
-                            <Avatar/>
-                        }
+                        avatar={<Avatar variant='rounded'/> }
                         to="?email"
                         label={email} 
                         component={ReactRouterLink}
+                        sx={{borderRadius: 1}}
                     />
                 </MuiBox>
                 <TextField
                     label="Mot de passe"
-                    defaultValue={password}
+                    defaultValue=""
                     fullWidth
                     margin="dense"
                     inputRef={passwordRef}

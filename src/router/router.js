@@ -3,8 +3,8 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Error404 from "../pages/error/Error404";
 import ErrorBoundary from '../pages/error/ErrorBoundary';
 import HomePage from "../pages/home/HomePage";
-import SigninPage from "../pages/signin/SigninPage";
-import SignupPagge from "../pages/signup/SignupPage";
+import SignInPage from "../pages/signin/SignInPage";
+import SignupPage from "../pages/signup/SignupPage";
 
 const router = createBrowserRouter([
     {
@@ -20,12 +20,12 @@ const router = createBrowserRouter([
     },
     {
         path: 'account/signin/*',
-        element: <SigninPage/>,
+        element: <SignInPage/>,
         errorElement: <ErrorBoundary/>,
     },
     {
         path: 'account/signup/*',
-        element: <SignupPagge/>,
+        element: <SignupPage/>,
         errorElement: <ErrorBoundary/>,
     },
     {

@@ -1,34 +1,23 @@
-import {
-    TextField, 
-    Box as MuiBox,
-    Alert,
-} from '@mui/material';
-import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import { TextField, Box as MuiBox, Alert, Fade } from '@mui/material';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import Box from '../../../components/Box';
 import Link from '../../../components/Link';
 import Typography from '../../../components/Typography';
-import { decrypt, encrypt } from '../../../utils/crypt';
+import useCheckTokenAccount from './useCheckTokenAccount';
 
-export default function CheckEmail({
-    email, 
-    emailRef, 
-    errorMessage,
-    refresh,
-    //cleanErrorMessage,
-}) {
-
+export default function CheckEmail({ email, errorMessage, refresh, emailRef, user }) {
     return (
         <MuiBox
             display="flex"
             flex={1}
             flexDirection="column"
         >
-            <Box
-                flex={1}
-            >
-                <Typography variant="body2" align="center" color="text.primary" paragraph>
+            <Box flex={1} >
+                <Typography 
+                    variant="body2" 
+                    align="center" 
+                    color="text.primary" paragraph
+                >
                     Connectez-vous pour accéder à la Geid.
                     Saisissez l'adresse e-mail correspondant à votre compte
                 </Typography>
@@ -51,48 +40,29 @@ export default function CheckEmail({
             <MuiBox my={1}>
                 <Account
                     refresh={refresh}
+                    email={email}
+                    user={user}
                 />
             </MuiBox>
         </MuiBox>
     )
 }
 
-const Account = ({refresh}) => {
-    const user = useSelector(store => store.app?.user && decrypt(store.app?.user)
-        );
-    // const dispatch = useDispatch();
-    const navigateTo = useNavigate();
-    const handleCheckAccount = useCallback(() => {
-        const { token, email } = user;
-        refresh({
-            url: '/api/auth/check',
-            method: 'post',
-            data: {type: "token", token},
-        }).then(({data}) => {
-            if(data?.found) {
-                const customEnvent = new CustomEvent('_connected', {
-                    detail: {
-                        user: encrypt(user),
-                        name: '_connected',
-                    }
-                });
-                document.getElementById('root')
-                .dispatchEvent(customEnvent);
-            }
-        }).catch((error) => {
-            if(error?.response.data?.found === false) 
-                navigateTo(`/account/signin?email=${email}`);
-        })
-    }, [user, navigateTo, refresh]);
-
-    return ( !!user &&
-        <Typography color="text.secondary" paragraph>
-            Ouvrez une session en tant 
-            que <Link 
-                component={ReactRouterLink} 
-                to="?&email"
-                onClick={handleCheckAccount}
-            >{user?.email}</Link>
-        </Typography>
+const Account = ({ refresh, user }) => {
+    const handleCheckAccount = useCheckTokenAccount({ user, refresh });
+    return (
+        <Fade 
+            in={Boolean(user)}
+            unmountOnExit
+        >
+            <Typography color="text.secondary" paragraph>
+                Ouvrez une session en tant 
+                que <Link 
+                    component={ReactRouterLink} 
+                    to="?&email"
+                    onClick={handleCheckAccount}
+                >{user?.email}</Link>
+            </Typography>
+        </Fade>
     )
 }

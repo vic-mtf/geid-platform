@@ -1,136 +1,34 @@
-import {
-    Slide,
-    Stack
-} from '@mui/material';
-import React, { useCallback, useRef, useState } from 'react';
+import { Slide, Stack } from '@mui/material';
+import React, { useMemo, useState } from 'react';
 import Button from '../../../components/Button';
-import queryString from 'query-string';
 import Account from './Account';
 import { useSelector } from 'react-redux';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { keyBy, merge } from 'lodash';
+import { Link, Navigate } from 'react-router-dom';
 import Box from '../../../components/Box';
 import CheckEmail from './CheckEmail';
 import CheckPassword from './CheckPassword';
-import { validateEmail } from '../../../utils/validateFields';
-import { decrypt, encrypt } from '../../../utils/crypt';
+import { decrypt } from '../../../utils/crypt';
+import useSignInSendData from './useSignInSendData';
 
 export default function Content ({loading, refresh}) {
-    const user = useSelector(store => store.app.user && decrypt(store.app?.user));
-    const [errorMessage, setErrorMesssage] = useState(null);
-    const location = useLocation();
-    const navigateTo = useNavigate();
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const emailValueRef = useRef();
-    const { 
-        email: defaultEmail, 
-        password: defaultPassword, 
-        usersession  
-    } = queryString.parse(location.search);
-    
-    const handleCleanErrorMessage = useCallback(() => {
-        if(errorMessage) setErrorMesssage(null);
-    }, [errorMessage])
-
-    const handleSendData = event => {
-        event?.preventDefault();
-        handleCleanErrorMessage();
-        const email = emailRef.current?.value?.trim();
-        const password = passwordRef.current?.value;
-
-        if(email) emailValueRef.current = email;
-        if(validateEmail(defaultEmail || email)) {
-            if(defaultEmail) {
-                if(!password.trim())
-                    setErrorMesssage(
-                        `Impossible de se connecter, 
-                        Merci de renseigner votre mot passe.`
-                    );
-                else refresh({
-                    method: 'post',
-                    url: '/api/auth/login',
-                    data: { 
-                        email: defaultEmail, 
-                        password 
-                    }
-                })
-                .then(result => {
-                    const { data } = result;
-                    const writeAuth = data?.auth?.readNWrite?.map(auth => ({
-                            type: auth,
-                            write: !!data?.auth?.readNWrite
-                            ?.find(_auth => _auth === auth),
-                    }));
-                    const readAuth = data?.auth?.readOnly?.map(auth => ({
-                            type: auth,
-                            write: !!data?.auth?.readOnly
-                            ?.find(_auth => _auth === auth),
-                    }));
-                    const client = {
-                        id: data.userId,
-                        token: data.token,
-                        email: data.userEmail,
-                        firstname: data.userFname,
-                        lastname: data.userLname,
-                        middlename: data.userMname || null,
-                        docTypes: data.docTypes,
-                        number: data.phoneCell,
-                        image: data.userImage || null,
-                        grade: data?.userGrade?.grade,
-                        role: data?.userGrade?.role,
-                        auth: data?.auth,
-                    };
-
-                    console.log(data);
-                    const user = encrypt(client);
-  
-                    const customEvent = new CustomEvent('_connected', {
-                        detail: {
-                            user,
-                            name: '_connected',
-                        }
-                    });
-                    document.getElementById('root')
-                    .dispatchEvent(customEvent);
-                })
-                .catch(error => {
-                    setErrorMesssage(
-                        `Impossible d'ouvrir une session 
-                        en raison du mot de passe incorrect, 
-                        vérifier et réessayer.`
-                    );
-                });
-
-            } else refresh({
-                url: '/api/auth/check',
-                data: {type: 'email', email},
-                method: 'post',
-            })
-            .then(({data}) => {
-                    if(data?.found)
-                        navigateTo('?' + queryString.stringify({email, password}));
-                })
-            .catch(error => {
-                if(error?.response?.data?.found === false)
-                    setErrorMesssage(
-                        `Compte introuvable, 
-                        cette adresse ne possède pas de compte à la Geid, 
-                        vérifiez pour essayer à nouveau.`
-                    );
-                else
-                    setErrorMesssage(
-                        `Un problème est survenu, 
-                        Nous avons des difficultés à charger vos données, 
-                        vérifier que vous êtes connecté à l'internet.`
-                    );
-                });
-        } 
-        else setErrorMesssage(
-            `Impossible de se connecter, 
-            Merci de saisir une adresse e-mail valide.`
-        );
-    };
+    const appStoreUser = useSelector(store => store.app.user);
+    const user = useMemo(() => decrypt(appStoreUser), 
+        [appStoreUser]
+    );
+    const [
+        {
+            errorMessage,
+            defaultEmail,
+            emailRef,
+            userSession,
+            passwordRef,
+            email
+        }, 
+        {
+            handleSendData,
+            handleCleanErrorMessage
+        }
+    ] = useSignInSendData({ refresh })
 
     return (
         <Box 
@@ -139,13 +37,9 @@ export default function Content ({loading, refresh}) {
             component="form"
             onSubmit={handleSendData}
         >
-            {   ( 
-                (usersession === undefined && defaultEmail === undefined) || 
-                (usersession && !user)
-                ) &&
-            <Navigate to="?email"/>}
+            {!user && !email && <Navigate to="?email"/>}
             <Box flex={1} position="relative" flexDirection="column">
-                <TabLevel show={usersession && user} >
+                <TabLevel show={user} >
                     <Account
                         user={user}
                         refresh={refresh}
@@ -153,20 +47,19 @@ export default function Content ({loading, refresh}) {
                 </TabLevel>
                 <TabLevel show={defaultEmail === null}>
                     <CheckEmail 
-                        email={emailValueRef.current}
-                        emailRef={emailRef} 
+                        email={email}
                         errorMessage={errorMessage}
                         refresh={refresh}
+                        user={user}
+                        emailRef={emailRef}
                     />
                 </TabLevel>
                 <TabLevel show={!!defaultEmail} >
                     <CheckPassword 
                         email={defaultEmail} 
-                        password={defaultPassword} 
                         passwordRef={passwordRef} 
                         errorMessage={errorMessage}
                         cleanErrorMessage={handleCleanErrorMessage}
-                        
                     />
                 </TabLevel>
             </Box>
@@ -177,7 +70,7 @@ export default function Content ({loading, refresh}) {
                 </Box>
                 <Box flex={1} >
                     {(defaultEmail === null || !!defaultEmail ) &&
-                    <Button type="submit" variant="contained">
+                    <Button type="submit" variant="outlined">
                       {defaultEmail ?  'Connexion' : 'Suivant'}
                     </Button>} 
                 </Box>
@@ -188,14 +81,15 @@ export default function Content ({loading, refresh}) {
 
 const TabLevel = ({show, children}) => {
 
-    return ( show &&
+    return (
         <Slide 
-            in 
+            in={Boolean(show)}
             direction="right" 
             style={{
                 position: 'absolute',
                 top:0
             }}
+            unmountOnExit
         >
             <Box flex={1} sx={{ width: '100%'}}>
                 {children}
