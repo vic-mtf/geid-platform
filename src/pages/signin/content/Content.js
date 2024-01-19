@@ -1,17 +1,20 @@
+import React, { useMemo, useEffect } from 'react';
 import { Slide, Stack } from '@mui/material';
-import React, { useMemo, useState } from 'react';
 import Button from '../../../components/Button';
 import Account from './Account';
 import { useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
 import Box from '../../../components/Box';
 import CheckEmail from './CheckEmail';
 import CheckPassword from './CheckPassword';
 import { decrypt } from '../../../utils/crypt';
 import useSignInSendData from './useSignInSendData';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import getPathnames from '../../../utils/getPathnames';
 
 export default function Content ({loading, refresh}) {
     const appStoreUser = useSelector(store => store.app.user);
+    const location = useLocation();
+    const navigateTo = useNavigate();
     const user = useMemo(() => decrypt(appStoreUser), 
         [appStoreUser]
     );
@@ -20,7 +23,6 @@ export default function Content ({loading, refresh}) {
             errorMessage,
             defaultEmail,
             emailRef,
-            userSession,
             passwordRef,
             email
         }, 
@@ -28,7 +30,17 @@ export default function Content ({loading, refresh}) {
             handleSendData,
             handleCleanErrorMessage
         }
-    ] = useSignInSendData({ refresh })
+    ] = useSignInSendData({ refresh });
+
+    const pathNames = useMemo(() => getPathnames(location?.pathname), [location?.pathname]);
+
+    useEffect(() => {
+        const paths = ['userfound', 'useremail', 'password'];
+        if( !pathNames.some(path => paths.includes(path)) ) {
+            if(user && !email) navigateTo('userfound');
+            if(!user) navigateTo('useremail');
+        }
+    }, [email, navigateTo, pathNames, user]);
 
     return (
         <Box 
@@ -37,15 +49,14 @@ export default function Content ({loading, refresh}) {
             component="form"
             onSubmit={handleSendData}
         >
-            {!user && !email && <Navigate to="?email"/>}
             <Box flex={1} position="relative" flexDirection="column">
-                <TabLevel show={user} >
+                <TabLevel show={pathNames.includes('userfound')} >
                     <Account
                         user={user}
                         refresh={refresh}
                     />
                 </TabLevel>
-                <TabLevel show={defaultEmail === null}>
+                <TabLevel show={pathNames.includes('useremail')}>
                     <CheckEmail 
                         email={email}
                         errorMessage={errorMessage}
@@ -54,7 +65,7 @@ export default function Content ({loading, refresh}) {
                         emailRef={emailRef}
                     />
                 </TabLevel>
-                <TabLevel show={!!defaultEmail} >
+                <TabLevel show={pathNames.includes('password')} >
                     <CheckPassword 
                         email={defaultEmail} 
                         passwordRef={passwordRef} 
@@ -79,21 +90,18 @@ export default function Content ({loading, refresh}) {
     )
 }
 
-const TabLevel = ({show, children}) => {
-
-    return (
-        <Slide 
-            in={Boolean(show)}
-            direction="right" 
-            style={{
-                position: 'absolute',
-                top:0
-            }}
-            unmountOnExit
-        >
-            <Box flex={1} sx={{ width: '100%'}}>
-                {children}
-            </Box>
-        </Slide>
-    )
-}
+const TabLevel = ({show, children}) => (
+    <Slide 
+        in={Boolean(show)}
+        direction="right" 
+        style={{
+            position: 'absolute',
+            top:0
+        }}
+        unmountOnExit
+    >
+        <Box flex={1} sx={{ width: '100%'}}>
+            {children}
+        </Box>
+    </Slide>
+);

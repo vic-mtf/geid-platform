@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-const _KEY_WORD = '20541239_41524542154_gatvxvahqabsg74111'.toString();
+const _KEY_WORD = '20541239_41524542154_gatvxvahqabsg74111';
 
 export const encrypt = obj => {
     try {

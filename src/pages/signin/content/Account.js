@@ -49,7 +49,7 @@ export default function Account ({ user, refresh }) {
             >
                 <Link
                     component={ReactRouterLink}
-                    to="?&email"
+                    to="useremail"
                 > Se connecter avec un notre compte</Link>
             </MuiBox>
         </MuiBox>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage/session";
+import deepMerge from "../utils/deepMerge";
 
 const user = createSlice({
     name: 'user',
@@ -9,6 +10,13 @@ const user = createSlice({
         //image: null,
     },
     reducers: {
+        updateUser(state, actions) {
+            const { data } = actions.payload;
+            const states = deepMerge(state, data);
+            Object.keys(states).forEach(key => {
+                state[key] = states[key];
+            });
+        },
         changeValues (state, actions) {
             const { token } = actions.payload;
             Object.keys(actions.payload).forEach(key => {
@@ -27,7 +35,7 @@ const user = createSlice({
     }
 });
 
-export const { changeValues, deconnected, updateValue } = user.actions;
+export const { changeValues, deconnected, updateValue, updateUser } = user.actions;
 export default persistReducer({
     storage,
     key:'__ROOT_GEID_USER_CONFIG_APP'

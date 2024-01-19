@@ -9,29 +9,29 @@ import SignupPage from "../pages/signup/SignupPage";
 const router = createBrowserRouter([
     {
         path: "*",
-        element: <Error404/>,
-        errorElement: <ErrorBoundary/>,
-       
+        element: <Error404 />,
+        errorElement: <ErrorBoundary />,
+
     },
     {
         path: '/',
-        element: <HomePage/>,
-        errorElement: <ErrorBoundary/>,
+        element: <HomePage />,
+        errorElement: <ErrorBoundary />,
     },
     {
         path: 'account/signin/*',
-        element: <SignInPage/>,
-        errorElement: <ErrorBoundary/>,
+        element: <SignInPage />,
+        errorElement: <ErrorBoundary />,
     },
     {
         path: 'account/signup/*',
-        element: <SignupPage/>,
-        errorElement: <ErrorBoundary/>,
+        element: <SignupPage />,
+        errorElement: <ErrorBoundary />,
     },
     {
         path: '/apps/dashboard',
-        element: <Dashboard/>,
-        errorElement: <ErrorBoundary/>,
+        element: <Dashboard />,
+        errorElement: <ErrorBoundary />,
     }
 ]);
 

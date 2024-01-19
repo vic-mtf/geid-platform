@@ -10,9 +10,9 @@ import Box from '../../../components/Box';
 import appConfig from '../../../configs/app-config.json';
 import Typography from '../../../components/Typography';
 import Logos from './Logos';
-import ListRelatedLinks from './ListRelatedLinks';
-import OtherLinks from './OtherLinks';
+import { relatedLinks, otherLinks } from "./links";
 import _logo_dantic from '../../../assets/dantic_logo_white.webp';
+import LinksGroup from './LinksGroup';
 
 export default function Footer () {
     return (
@@ -24,7 +24,7 @@ export default function Footer () {
                 height={5} 
                 display="flex" 
                 direction="row" 
-                borderRadius={2} 
+                borderRadius={.5} 
                 overflow="hidden" 
             >
                 <Box flex={1} bgcolor="#0095c9" />
@@ -34,51 +34,86 @@ export default function Footer () {
             <ThemeProvider theme={createTheme({ palette: { mode: 'dark' }})} >   
                 <MuiBox
                     minHeight={300}
-                    bgcolor={appConfig.colors.main}
+                    backgroundColor={appConfig.colors.main}
                     display="flex"
+                    py={5}
                 >
                   <Grid container>
-                    <Grid item xs={12} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex" >
-                        <Logos/>
-                    </Grid> 
-                    <Grid item xs={6} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
-                        <ListRelatedLinks/>
-                    </Grid> 
-                    <Grid item xs={6} lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
-                        <OtherLinks/>
-                    </Grid> 
-                    <Grid item lg={3} flex={1} justifyContent="center" alignItems="center" display="flex">
-                        <Stack
-                            flex={1} 
-                            justifyContent="center" 
-                            alignItems="center" 
+                    {gridsProps.map((props, index) => 
+                        <Grid 
+                            {...props}
+                            item
                             display="flex" 
-                            flexDirection="column"
-                            spacing={2}
-                        >
-                            <MuiBox
-                                component="img"
-                                src={_logo_dantic}
-                                height={100}
-                                draggable={false}
-                                sx={{ userSelect: 'none', mt: { xs: 5, lg: 0}}}
-                            />
-                            <Typography 
-                                align="center" 
-                                variant="caption" 
-                                color="text.secondary"
-                                px={2}
-                                pb={1}
-                            >
-                                Direction Archives et Nouvelles 
-                                Technologie de l'Information et 
-                                de la Communication &copy;2022
-                            </Typography>
-                        </Stack>
-                    </Grid>
+                            // alignItems="center" 
+                            justifyContent="center" 
+                            key={index}
+                            padding={2}
+                        />
+                    )}
                   </Grid>  
                 </MuiBox>  
             </ThemeProvider>
         </MuiBox>
     );
 }
+
+const gridsProps = [
+    {
+        xs: 12, 
+        lg: 3,
+        children: React.createElement(Logos),
+    },
+    {
+
+        xs: 6,
+        lg: 3,
+        children: React.createElement(LinksGroup, {
+            links: relatedLinks,
+            title: 'Liens connexes',
+        }),
+    },
+    {
+        xs: 6,
+        lg: 3,
+        children: React.createElement(LinksGroup, {
+            links: otherLinks,
+            title: 'Autres liens',
+        }),
+    },
+    {
+        lg: 3,
+        xs: 12,
+        children: (
+            <Stack
+                alignItems="center" 
+                display="flex" 
+                flexDirection="column"
+                spacing={1}
+                sx={{
+                    mt: {
+                        xs: 4,
+                        md: 0,
+                    }
+                }}
+            >
+                <MuiBox
+                    component="img"
+                    src={_logo_dantic}
+                    height={100}
+                    draggable={false}
+                    sx={{ userSelect: 'none', mt: { xs: 5, lg: 0}}}
+                />
+                <Typography 
+                    align="center" 
+                    variant="caption" 
+                    color="text.primary"
+                    px={2}
+                    pb={1}
+                >
+                    Direction Archives et Nouvelles Technologie de l'Information et 
+                    de la Communication &copy;2022
+                </Typography>
+            </Stack>
+        )
+    }
+];

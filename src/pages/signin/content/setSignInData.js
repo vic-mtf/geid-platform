@@ -1,19 +1,12 @@
-import { keyBy, merge } from 'lodash';
-import { encrypt } from '../../../utils/crypt';
+import { decrypt, encrypt } from '../../../utils/crypt';
+import store from '../../../redux/store';
+import { setUser } from '../../../redux/app';
+import { isPlainObject } from 'lodash';
+import { updateUser } from '../../../redux/user';
+import channels from '../../../utils/channels';
 
 export default function setSignInData (data) {
-    const name = '_connected';
-    const writeAuth = data?.auth?.readNWrite?.map(auth => ({
-        type: auth,
-        write: !!data?.auth?.readNWrite
-        ?.find(_auth => _auth === auth),
-    }));
-    const readAuth = data?.auth?.readOnly?.map(auth => ({
-        type: auth,
-        write: !!data?.auth?.readOnly
-        ?.find(_auth => _auth === auth),
-    }));
-    const user = encrypt({
+    const user = isPlainObject(data) ? {
         id: data.userId,
         token: data.token,
         email: data.userEmail,
@@ -22,17 +15,22 @@ export default function setSignInData (data) {
         middlename: data.userMname || null,
         docTypes: data.docTypes,
         number: data.phoneCell,
-        image: data.userImage || null,
+        image: data.userImage,
+        avatarUrl: data.userImage,
         grade: data?.userGrade?.grade,
         role: data?.userGrade?.role,
-        permissions: merge( 
-            keyBy(writeAuth, 'type'), 
-            keyBy(readAuth, 'type')
-        ),
-    });
-    const customEvent = new CustomEvent(name, {
-        detail: { user, name }
-    });
-    document.getElementById('root')
-    .dispatchEvent(customEvent);
+        auth: data?.auth,
+    } : decrypt(data);
+    const encryptUser = isPlainObject(data) ? encrypt(user) : data;
+    store.dispatch(setUser(encryptUser));
+    store.dispatch(updateUser({ 
+            data: { 
+            ...user, 
+            connected : true 
+        } 
+    }));
+    
+    SIGN_IN_CHANNEL.postMessage(encryptUser, window.location.origin);
 }
+
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin);

@@ -32,7 +32,8 @@ export default function CheckPassword({ passwordRef, email, errorMessage }) {
                     >Bienvenue</Typography>
                     <Chip 
                         avatar={<Avatar variant='rounded'/> }
-                        to="?email"
+                        onClick={event => event.stopPropagation()}
+                        to="/account/signin/useremail"
                         label={email} 
                         component={ReactRouterLink}
                         sx={{borderRadius: 1}}

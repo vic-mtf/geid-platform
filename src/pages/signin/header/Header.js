@@ -1,16 +1,26 @@
 import {
-    Box as MuiBox
-} from '@mui/material';
-import _geid_logo from '../../../assets/geid_logo_blue.webp';
-import Typography from '../../../components/Typography';
+    Box as MuiBox,
+    useTheme,
+} from "@mui/material";
+import _geid_logo_blue from "../../../assets/geid_logo_blue.webp";
+import _geid_logo_white from "../../../assets/geid_logo_white.webp"
+import Typography from "../../../components/Typography";
+import { useMemo } from "react";
 
 export default function Header() {
+    const theme = useTheme();
+    const srcLogo = useMemo(() => 
+        theme.palette.mode === 'dark' ? 
+        _geid_logo_white : _geid_logo_blue,
+        [theme.palette.mode]
+    );
+
     return (
         <MuiBox>
             <MuiBox
                 component="img"
-                src={_geid_logo}
-                srcSet={_geid_logo}
+                src={srcLogo}
+                srcSet={srcLogo}
                 width="80%"
                 draggable={false}
                 sx={{ userSelect: 'none'}}

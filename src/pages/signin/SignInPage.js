@@ -15,38 +15,25 @@ import Header from './header/Header';
 import useAxios from '../../utils/useAxios';
 import ErrorNetwork from '../error/ErrorNetwork';
 import Footer from './footer/Footer';
-import { setUser } from '../../redux/app';
-import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import Link from '../../components/Link';
-
-const channel = new BroadcastChannel('_geid_sign_in_connection_channel');
+import channels from "../../utils/channels";
 
 export default function SignInPage() {
-    const [{loading}, refresh] = useAxios({},{manual: true});
-    const [finished, setFinished] = useState(false);
+    const [{loading}, refresh] = useAxios(null, { manual: true });
+    const connected = useSelector(store => store.user.connected);
     const dispatch = useDispatch();
     const match = useMediaQuery('@media (min-width:0px) and (max-width: 410px)');
 
     useEffect(() => {
         let handleAutoConnection = event => {
-            const { user } = event.detail;
-            dispatch(setUser(user));
-            setFinished(true);
-            channel.postMessage(user, window?.location?.origin);
-            window.close();
+            if(window.origin === event.origin) 
+                window.close();
         };
-        document.getElementById('root')
-        .addEventListener(
-            '_connected', 
-            handleAutoConnection
-            );
+        SIGN_IN_CHANNEL.addEventListener('message', handleAutoConnection);
         return () => {
-            document.getElementById('root')
-            .removeEventListener(
-                '_connected', 
-                handleAutoConnection
-            );
+            SIGN_IN_CHANNEL.removeEventListener('message', handleAutoConnection);
         }
     }, [dispatch]);
 
@@ -105,7 +92,7 @@ export default function SignInPage() {
             />
             <ErrorNetwork/>
             <Dialog
-                open={finished}
+                open={connected}
                 PaperProps={{
                     sx:{ border: theme => `1px solid ${theme.palette.divider}` }
                 }}
@@ -121,12 +108,13 @@ export default function SignInPage() {
                     Vous avez réussi à vous connecter à votre compte et pouvez 
                     accéder à la plate-forme 
                     pour <Link 
-                        component="a" 
-                        href="/?autoconnexion=true" 
-                        target="_blank"
+                            href={window.opener?.location || '/'} 
+                            target={window.opener ? "_blank" : "_self"}
                     >continuer la navigation</Link>.
                 </Alert>
             </Dialog>
         </Box>
     )
 }
+
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin);

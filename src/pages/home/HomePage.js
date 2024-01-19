@@ -6,56 +6,39 @@ import { Card,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Box from "../../components/Box";
 import Button from "../../components/Button";
 import Typography from "../../components/Typography";
-import { changeValues } from "../../redux/user";
 import { decrypt } from "../../utils/crypt";
 import Books from "./books/Books";
 import Carousel from "./carousel/Carouser";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
 import Pubs from "./pubs/Pubs";
+import scrollBarSx from "../../utils/scrollBarSx";
+import channels from "../../utils/channels";
+import { updateUser } from "../../redux/user";
 
 export default function HomePage () {
-    const navigateTo = useNavigate();
     const dispatch = useDispatch();
-    const connected = useSelector(store => store.user.connected);
-    
     useEffect(() => {
-        let timer;
-        let handleAutoConnexion;
-        (handleAutoConnexion = () => {
-            if (!connected) {
-                timer = window.setInterval(() => {
-                   const data = localStorage.getItem('_auto_connexion_data');
-                   if(data) {
-                       window.clearInterval(timer);
-                       localStorage.removeItem('_auto_connexion_data');
-                       dispatch(changeValues(decrypt(data)));
-                       navigateTo('/');
-                   }
-                }, 100);
-           }
-        })();
-        document.getElementById('root')
-        .addEventListener(
-            '_deconnected', 
-            handleAutoConnexion
-            );
+        const handleLogin = (event) => {
+            if(event.origin === window.location.origin && event.data) {
+                const data = {
+                    connected: true,
+                    ...decrypt(event.data),
+                };
+                dispatch(updateUser({ data }));
+            }
+        };
+        SIGN_IN_CHANNEL.addEventListener("message", handleLogin);
         return () => {
-                window.clearInterval(timer);
-                document.getElementById('root')
-                    .removeEventListener(
-                        '_deconnected', 
-                        handleAutoConnexion
-                    );
+            SIGN_IN_CHANNEL.removeEventListener("message", handleLogin);
         }
-    }, [connected, dispatch, navigateTo]);
+    }, [dispatch]);
 
     return (
-        <Box sx={{overflow: 'auto'}}>
+        <Box sx={{overflow: 'auto', ...scrollBarSx}}>
             <Header/>
             <Carousel/>
             <Stack mx={1} my={1} spacing={1} >
@@ -125,4 +108,6 @@ const SignupAction = () => {
             >Créér un compte</Button>
         </CardActions>
     )
-}
+};
+
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin); 

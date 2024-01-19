@@ -1,8 +1,8 @@
-import { useCallback, useRef, useState } from 'react';
-import queryString from 'query-string';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../../utils/validateFields';
 import setSignInData from './setSignInData';
+import getPathnames from '../../../utils/getPathnames';
 
 export default function  useSignInSendData ({ refresh }) {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -12,9 +12,10 @@ export default function  useSignInSendData ({ refresh }) {
     const emailRef = useRef();
     const passwordRef = useRef();
 
-    const { 
-        email: defaultEmail, 
-     } = queryString.parse(location.search);
+    const defaultEmail = useMemo(() => {
+        const paths = getPathnames(location?.pathname);
+        return paths[ paths?.length - 2];
+    }, [location?.pathname]);
     
     const handleCleanErrorMessage = useCallback(() => {
         if(errorMessage) setErrorMessage(null);
@@ -27,7 +28,6 @@ export default function  useSignInSendData ({ refresh }) {
         handleCleanErrorMessage();
         const email = getEmail();
         const password = passwordRef.current?.value;
-        console.log(password);
         let error;
         if(validateEmail(email)) {
             if(defaultEmail === email) {
@@ -51,7 +51,7 @@ export default function  useSignInSendData ({ refresh }) {
                         method: 'post',
                     });
                     if(data?.found) {
-                        navigateTo('?' + queryString.stringify({email, password}));
+                        navigateTo(`${email}/password`);
                         setEmail(email)
                     }
                 } catch(e) {

@@ -8,9 +8,7 @@ import {
 import React from "react";
 import Typography from "../../../components/Typography";
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
-import { relatedLinks } from "./links";
-
-export default function ListRelatedLinks () {
+export default function LinksGroup ({ title, links }) {
     return (
         <List
         disablePadding
@@ -20,16 +18,22 @@ export default function ListRelatedLinks () {
                 color="text.primary"
                 component="div"
                 paragraph
-            >
-                Liens connexes
+            >{title}
             </Typography>
             }
         sx={{width: { xs: 170, lg: 200 }}}
     > 
-        {relatedLinks.map((link, index, links) => (
+        {links.map((link, index, links) => (
             <React.Fragment key={index} >
                 <ListItemButton
-                    sx={styles.listItemButton} 
+                    sx={{
+                        width:'auto', 
+                        px: 1, 
+                        py: .25, 
+                        // minHeight: 32, 
+                        color: 'text.primary', 
+                        borderRadius: 1
+                    }} 
                     LinkComponent="a" 
                     target="_blank"
                     href={link.href}
@@ -50,20 +54,8 @@ export default function ListRelatedLinks () {
                         />
                     </MuiBox>
                 </ListItemButton>
-                {index < (links.length - 1) && <Divider variant='middle' component="li" />}
             </React.Fragment>
         ))}
     </List>  
     )
-}
-
-const styles = {
-    listItemButton: {
-        width:'auto',  
-        px: 1, 
-        py: 0, 
-        minHeight: 32, 
-        color: '#ffffff', 
-        borderRadius: 4 
-    },
 }

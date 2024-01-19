@@ -2,7 +2,6 @@ import {
     Chip, 
     IconButton, 
     Tooltip,
-    Avatar,
     useMediaQuery,
     useTheme
 } from "@mui/material";
@@ -12,6 +11,9 @@ import Button from "../../../components/Button";
 import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
 import AppsMenu from "./AppsMenu";
 import ProfileMenu from "./ProfileMenu";
+import openSignIn from "./openSignIn";
+import Avatar from "../../../components/Avatar";
+import getFullName from "../../../utils/getFullName";
 
 export default function MainOption () {
     const connected = useSelector(store => store.user?.connected);
@@ -29,16 +31,7 @@ export default function MainOption () {
                     variant="outlined"
                     onClick={event => {
                         event.preventDefault();
-                        const width = window.innerWidth * .65;
-                        const height = window.innerHeight * .85;
-                        const left = (window.innerWidth - width) / 2;
-                        const top = (window.innerHeight - height) / 2;
-                        const sizes = `top=${top}, left=${left}, width=${width}, height=${height}`;
-                        window.open(
-                            `/account/signin?usersession=${!userSave}`,
-                            '_blank',
-                            sizes
-                        );
+                        openSignIn();
                     }} 
                 >Connexion</Button>
             </React.Fragment>)
@@ -77,7 +70,7 @@ const ProfileMenuButton  = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const anchorRef = useRef();
     const user = useSelector(store => store.user);
-    const fullname = `${user.lastname} ${user.firstname}`;
+    const fullname = getFullName(user)//`${user.lastname} ${user.firstname}`;
     const shotname = `${user.lastname?.charAt(0)}${user.firstname?.charAt(0)}`;
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.only('xs'));
@@ -90,7 +83,7 @@ const ProfileMenuButton  = () => {
                         onClick={() => {
                             setAnchorEl(anchorEl ? null : anchorRef.current);
                         }}
-                        sx={{ml: 1}}
+                        sx={{ml: 1, borderRadius: 1}}
                         avatar={
                             <Avatar
                                 alt={fullname}
