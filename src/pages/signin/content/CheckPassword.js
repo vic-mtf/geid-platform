@@ -36,7 +36,7 @@ export default function CheckPassword({ passwordRef, email, errorMessage }) {
                         to="/account/signin/useremail"
                         label={email} 
                         component={ReactRouterLink}
-                        sx={{borderRadius: 1}}
+                        sx={{ borderRadius: 1 }}
                     />
                 </MuiBox>
                 <TextField
@@ -76,7 +76,7 @@ export default function CheckPassword({ passwordRef, email, errorMessage }) {
                 {!!errorMessage &&
                 <Alert severity="error">
                     <Typography variant="caption">
-                        {errorMessage}
+                        { errorMessage }
                     </Typography>
                 </Alert>}
             </Box>

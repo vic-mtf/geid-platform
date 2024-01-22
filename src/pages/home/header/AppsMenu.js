@@ -14,7 +14,7 @@ import appsList from './appsList';
 
 export default function AppsMenu ({anchorEl, onClose}) {
     const auth = useSelector(store => store?.user?.auth);
-  
+    
     return (
         <Menu 
             id="_apps" 

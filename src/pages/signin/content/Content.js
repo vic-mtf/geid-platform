@@ -36,7 +36,8 @@ export default function Content ({loading, refresh}) {
 
     useEffect(() => {
         const paths = ['userfound', 'useremail', 'password'];
-        if( !pathNames.some(path => paths.includes(path)) ) {
+        const notFound = !pathNames.some(path => paths.includes(path));
+        if(notFound) {
             if(user && !email) navigateTo('userfound');
             if(!user) navigateTo('useremail');
         }

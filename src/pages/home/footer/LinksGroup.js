@@ -3,11 +3,11 @@ import {
     ListItemButton, 
     ListItemText,
     Box as MuiBox,
-    Divider
 } from "@mui/material";
 import React from "react";
 import Typography from "../../../components/Typography";
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
+
 export default function LinksGroup ({ title, links }) {
     return (
         <List

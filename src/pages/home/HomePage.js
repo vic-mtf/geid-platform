@@ -20,6 +20,7 @@ import channels from "../../utils/channels";
 import { updateUser } from "../../redux/user";
 
 export default function HomePage () {
+    
     const dispatch = useDispatch();
     useEffect(() => {
         const handleLogin = (event) => {
@@ -110,4 +111,4 @@ const SignupAction = () => {
     )
 };
 
-const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin); 
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signIn); 

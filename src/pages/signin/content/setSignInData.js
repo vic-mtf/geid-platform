@@ -33,4 +33,4 @@ export default function setSignInData (data) {
     SIGN_IN_CHANNEL.postMessage(encryptUser, window.location.origin);
 }
 
-const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin);
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signIn);

@@ -6,6 +6,7 @@ import Typography from '../../../components/Typography';
 import useCheckTokenAccount from './useCheckTokenAccount';
 
 export default function CheckEmail({ email, errorMessage, refresh, emailRef, user }) {
+    
     return (
         <MuiBox
             display="flex"

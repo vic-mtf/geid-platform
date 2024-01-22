@@ -1,8 +1,9 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../../utils/validateFields';
 import setSignInData from './setSignInData';
 import getPathnames from '../../../utils/getPathnames';
+import { isBoolean } from 'lodash';
 
 export default function  useSignInSendData ({ refresh }) {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -11,19 +12,25 @@ export default function  useSignInSendData ({ refresh }) {
     const navigateTo = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
-
     const defaultEmail = useMemo(() => {
         const paths = getPathnames(location?.pathname);
         return paths[ paths?.length - 2];
     }, [location?.pathname]);
-    
     const handleCleanErrorMessage = useCallback(() => {
         if(errorMessage) setErrorMessage(null);
     }, [errorMessage]);
-
-    const getEmail = useCallback(() => emailRef.current?.value?.trim() || email, [email]);
-
-    const handleSendData = async event => {
+    const getEmail = useCallback(() => emailRef.current?.value?.trim() || email , [email]);
+    const onCheckEmail = useCallback(async ({ email }) => new Promise(async (resolve, reject) => {
+        try {
+            const { data } = await refresh({
+                url: '/api/auth/check',
+                data: { type: 'email', email },
+                method: 'post',
+            });
+            resolve(data)
+        } catch(e) { reject(e); }
+    }), [refresh]);
+    const handleSendData = useCallback(async event => {
         event?.preventDefault();
         handleCleanErrorMessage();
         const email = getEmail();
@@ -45,11 +52,7 @@ export default function  useSignInSendData ({ refresh }) {
                 } 
             } else {
                 try {
-                    const { data } = await refresh({
-                        url: '/api/auth/check',
-                        data: { type: 'email', email },
-                        method: 'post',
-                    });
+                    const  data  = await onCheckEmail({ email });
                     if(data?.found) {
                         navigateTo(`${email}/password`);
                         setEmail(email)
@@ -60,22 +63,43 @@ export default function  useSignInSendData ({ refresh }) {
             }
         } 
         else error = 'anyEmail';
-        setErrorMessage(errors[error]);
+        if(error) setErrorMessage(errors[error]);
+    },[ defaultEmail, getEmail, handleCleanErrorMessage, navigateTo, onCheckEmail, refresh]);
+    const getters =  {
+        errorMessage,
+        defaultEmail,
+        emailRef,
+        email,
+        passwordRef,
     };
-    return [
-        {
-            errorMessage,
-            defaultEmail,
-            emailRef,
-            email,
-            passwordRef,
-        }, 
-        {
-            setEmail,
-            handleSendData,
-            handleCleanErrorMessage
+    const setters = {
+        setEmail,
+        handleSendData,
+        handleCleanErrorMessage
+    };
+    useEffect(() => {
+        const paths = getPathnames(location?.pathname);
+        const defaultEmail = paths[ paths?.length - 2];
+        const email = getEmail();
+        const onFound = (found) => {
+            if(found && isBoolean(found)) {
+                setEmail(defaultEmail);
+                emailRef.current = defaultEmail;
+            }
+            if(!found && isBoolean(found)) {
+                navigateTo("signin/email");
+                const error = found === false ? 'account' : 'network';
+                if(error) setErrorMessage(errors[error]);
+            }
+        };
+        if(paths[ paths?.length - 1] === 'password' && email !== defaultEmail) {
+            onCheckEmail({ email: defaultEmail })
+            .then(data => { onFound(data?.found) })
+            .catch(e => { onFound(e?.response?.data?.found) });
         }
-    ];
+    }, [location?.pathname, getEmail, navigateTo, onCheckEmail]);
+
+    return [getters, setters];
 };
 
 const errors = {

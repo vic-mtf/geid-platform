@@ -17,7 +17,6 @@ import getFullName from "../../../utils/getFullName";
 
 export default function MainOption () {
     const connected = useSelector(store => store.user?.connected);
-    const userSave = useSelector(store => store?.app?.user);
    
     return (
         <React.Fragment>
@@ -70,10 +69,11 @@ const ProfileMenuButton  = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const anchorRef = useRef();
     const user = useSelector(store => store.user);
-    const fullname = getFullName(user)//`${user.lastname} ${user.firstname}`;
+    const fullname = getFullName(user);
     const shotname = `${user.lastname?.charAt(0)}${user.firstname?.charAt(0)}`;
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.only('xs'));
+
     return (
         <React.Fragment>
             <Tooltip title="Profil" arrow>

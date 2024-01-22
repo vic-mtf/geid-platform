@@ -117,4 +117,4 @@ export default function SignInPage() {
     )
 }
 
-const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signin);
+const SIGN_IN_CHANNEL = new BroadcastChannel(channels.signIn);
