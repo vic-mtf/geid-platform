@@ -1,4 +1,4 @@
-import _archives_logo from '../../../assets/archives_workbooks.webp';
+import _archives_logo from '../../../assets/crdoy0js-removebg-preview.webp';
 import _media_logo from '../../../assets/5a229b479641b7.26338722151221741.webp';
 //import _arcives_server_logo from '../../../assets/kisspng-paper-drawer-archive-rin.webp';
 // import _checklist_logo from '../../../assets/kisspng-hand-stop-sign-symbol-cl.webp';
