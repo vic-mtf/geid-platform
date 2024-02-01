@@ -16,7 +16,12 @@ export default function Header() {
                 sx={{ userSelect: 'none'}}
 
             />
-            <Typography align="center" variant="h6" paragraph>
+            <Typography 
+                align="center" 
+                variant="h6" 
+                paragraph 
+                color="text.primary"
+            >
                 Un problème est survenu.
             </Typography>
         </MuiBox>

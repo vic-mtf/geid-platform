@@ -14,6 +14,13 @@ const tabs = [
         component: 'a',
     },
     {
+        label: 'Lisolo na budget',
+        access: 'public',
+        id: '_meeting',
+        href: '/apps/lisolonabudget',
+        component: 'a',
+    }, 
+    {
         label: 'Tableau de bord',
         access: 'private',
         id: '_dashboard',

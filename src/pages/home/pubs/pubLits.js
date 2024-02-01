@@ -2,8 +2,9 @@ import _archive_image from '../../../assets/pub_image_archives.webp';
 import _film_image from '../../../assets/pub_image_film.webp';
 import _library_image from '../../../assets/pub_image_library.webp';
 import _photo_image from '../../../assets/pub_image_photo.webp';
-import _manager_image from '../../../assets/pub_image_manager.webp';
+// import _manager_image from '../../../assets/pub_image_manager.webp';
 import _product_image from '../../../assets/pub_image_product.webp';
+import _video_image from '../../../assets/pub_image_video.webp';
 
 const pubLits = [
     {
@@ -43,7 +44,7 @@ const pubLits = [
         title: "Photothèque",
         src: _photo_image,
         accessMode: 'public',
-        href: '/app/medialibrary/pictures',
+        href: '/app/medialibrary/images',
         content: `
         Collection des figures de proue du Ministère, des personnalités de référence  dans
         la production budgétaire et évènement mémorial au Ministère du Budget`,
@@ -57,17 +58,27 @@ const pubLits = [
         Publication: Diffusion, vulgarisation et dissémination des informations`,
     },
     {
-        title: "Gestion de l'information",
-        src: _manager_image,
+        title: "Lisolo Ba Budget",
+        src: _video_image,
         accessMode: 'public',
+        href: '/apps/lisolonabudget',
         content: `
-        Processus d'organisation, traitement, controle, partage et conservation
-        de l'information sous toute ses formes en vue d'une meilleure prise de
-        décision au sein d'une institution.`
-        // content: `
-        // La gestion implique la capacité à organiser et contrôler la structure,
-        // le traitement et la mise à disposition dans un format exploitable de l’information
-        // de manière securisée`,
-    }
+        Travaillez en équipe avec Lisolo na Budget. 
+        Collaborer devient facile et productif, où que vous soyez. 
+        Venez découvrir comment nous révolutionnons les réunions en ligne.`,
+    },
+    // {
+    //     title: "Gestion de l'information",
+    //     src: _manager_image,
+    //     accessMode: 'public',
+    //     content: `
+    //     Processus d'organisation, traitement, controle, partage et conservation
+    //     de l'information sous toute ses formes en vue d'une meilleure prise de
+    //     décision au sein d'une institution.`
+    //     // content: `
+    //     // La gestion implique la capacité à organiser et contrôler la structure,
+    //     // le traitement et la mise à disposition dans un format exploitable de l’information
+    //     // de manière securisée`,
+    // }
 ];
 export default pubLits;

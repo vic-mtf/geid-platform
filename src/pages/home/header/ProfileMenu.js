@@ -1,10 +1,10 @@
+import React from 'react';
 import { 
     Avatar,
     Badge,
     Box as MuiBox,
     CardContent, 
     Divider, 
-    IconButton, 
     Menu,
     Stack
 } from '@mui/material';
@@ -13,6 +13,8 @@ import AddAPhotoRoundedIcon from '@mui/icons-material/AddAPhotoRounded';
 import Typography from '../../../components/Typography';
 import { useSelector } from 'react-redux';
 import Button from '../../../components/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import IconButton from '../../../components/IconButton';
 
 export default function ProfileMenu ({anchorEl, onClose}) {
     const user = useSelector(store => store.user);
@@ -30,8 +32,8 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                     bgcolor: theme => theme.palette.background.paper + 
                     theme.customOptions.opacity,
                     border: theme => `1px solid ${theme.palette.divider}`,
-                    min: 350,
-                    width: 360,
+                    // min: 350,
+                    width: 300,
                     backdropFilter: theme => `blur(${theme.customOptions.blur})`
                 }
             }}
@@ -59,11 +61,11 @@ export default function ProfileMenu ({anchorEl, onClose}) {
             >
                 <Box justifyContent="center" alignItems="center">
                     <Badge
-                        overlap="circular"
+                        overlap="rectangular"
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                         sx={{my:3}}
                         badgeContent={
-                            <IconButton 
+                            <IconButton
                                 size="small"
                                 onClick={async() => {
                                     const file = await new Promise((resolve, reject) => {
@@ -87,8 +89,9 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                                     onClose();
                                 }}  
                                 sx={{
-                                    bgcolor: theme => theme.palette.background.paper + 'aa',
                                     backdropFilter: theme => `blur(${theme.customOptions.blur})`,
+                                    border: theme => `1px solid ${theme.palette.background.paper + '30'}`
+
                                 }}
                             >
                                 <AddAPhotoRoundedIcon fontSize="small"/>
@@ -99,6 +102,7 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                             sx={{width: 100, height: 100, fontSize: 50,}}
                             alt={fullname}
                             src={user.image}
+                            variant="rounded"
                         />
                     </Badge>
                     <Typography fontWeight="bold" variant='body1'>{fullname}</Typography>
@@ -113,10 +117,11 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                         my={1}
                     >
                         <Button
-                            variant="outlined"
-                            color="inherit"
+                            variant="contained"
+                            color="error"
                             fullWidth={false}
-                            size="medium"
+                            // size="medium"
+                            endIcon={React.createElement(LogoutIcon)}
                             onClick={() => {
                                 const customEvent = new CustomEvent(
                                     '_deconnected',
@@ -125,7 +130,7 @@ export default function ProfileMenu ({anchorEl, onClose}) {
                                 document.getElementById('root')
                                 .dispatchEvent(customEvent);
                             }}
-                        >Se déconnecter</Button>  
+                        >Déconnexion</Button>  
                     </MuiBox>
                 </Box>
                 <Box> </Box>

@@ -1,6 +1,5 @@
 import { 
-    Chip, 
-    IconButton, 
+    Chip,
     Tooltip,
     useMediaQuery,
     useTheme
@@ -14,6 +13,7 @@ import ProfileMenu from "./ProfileMenu";
 import openSignIn from "./openSignIn";
 import Avatar from "../../../components/Avatar";
 import getFullName from "../../../utils/getFullName";
+import IconButton from "../../../components/IconButton";
 
 export default function MainOption () {
     const connected = useSelector(store => store.user?.connected);

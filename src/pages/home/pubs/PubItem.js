@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import Typography from '../../../components/Typography';
 
-export default function PubItem ({desc, description, src, uri, title, srcSet}) {
+export default function PubItem ({desc, description, src, uri, title, srcSet, href}) {
 
     return (
         <MuiBox
@@ -40,7 +40,10 @@ export default function PubItem ({desc, description, src, uri, title, srcSet}) {
                     }
                 }}
             >
-                <CardActionArea>
+                <CardActionArea
+                    href={href}
+                    LinkComponent="a"
+                >
                     <Stack
                         direction="row"
                         display="flex"

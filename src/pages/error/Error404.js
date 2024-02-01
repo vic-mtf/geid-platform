@@ -20,8 +20,10 @@ export default function Error404 () {
                     <Typography variant="body1" color="text.primary" >Page introuvable</Typography>
                 </Stack>
                 <Stack spacing={1}>
-                    <Typography>
-                        Geid ne trouve pas d'adresse <em className={classes.link}>{window.location.toString()}</em>, vérifiez et réessayez.
+                    <Typography 
+                        color="text.primary"
+                    >
+                        Geid ne trouve pas cette adresse , vérifiez et réessayez.
                     </Typography>
                     <Typography color="text.secondary">
                         Vous serez redirigé vers vers l'accueil au bout de <RedirectTimer/>s.

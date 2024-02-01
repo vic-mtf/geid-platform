@@ -16,12 +16,13 @@ export default function Pubs() {
         >
           <CardContent>
             <Grid container spacing={2}>
-                {pubLits.map((pub, index) => (
-                    <Grid item key={index} xs={12} md={6} lg={4} >
+                {pubLits.map((pub) => (
+                    <Grid item key={pub.title} xs={12} md={6} lg={4} >
                         <PubItem
                             src={pub.src}
                             desc={pub.content}
                             title={pub.title}
+                            href={pub.href}
                         />
                     </Grid>
                 ))}
