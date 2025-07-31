@@ -68,7 +68,7 @@ La plateforme GEID se compose de plusieurs modules autonomes et interconnectés 
 
 ```bash
 # Cloner le dépôt
-git clone [https:/github.com/vic-mtf/geid-platform](https://github.com/vic-mtf/geid-platform)
+git clone https://github.com/vic-mtf/geid-platform
 cd geid
 
 # Installer les dépendances avec pnpm
