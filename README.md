@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# GEID - Gestion Électronique de l'Information et des Documents
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+La Gestion Électronique de l’Information et des Documents (GEID) est une plateforme web développée avec **React** et **Vite**, dont la mission est de révolutionner la manière dont les institutions publiques gèrent, exploitent et diffusent leurs ressources documentaires. Elle a été pensée dans un contexte de transition numérique au sein du **Ministère du Budget**, pour faire face à l'explosion des volumes de données, la dispersion des supports, et le besoin croissant d’accessibilité rapide, sécurisée et centralisée à l'information stratégique.
 
-In the project directory, you can run:
+## Objectif du projet
 
-### `yarn start`
+GEID vise à offrir un **écosystème documentaire complet**, permettant à une organisation publique ou privée de :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Centraliser tous les documents textuels, visuels et audiovisuels.
+- Organiser les contenus selon des logiques fonctionnelles (archives, bibliothèque, publications...).
+- Sécuriser les accès via des rôles et permissions adaptés.
+- Optimiser le temps de traitement documentaire et l’espace physique de stockage.
+- Mettre en place un véritable patrimoine numérique institutionnel à long terme.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Ce projet s’inscrit dans une dynamique de **modernisation des administrations**, avec pour finalité une gestion transparente, structurée et durable de l’information.
 
-### `yarn test`
+## Modules fonctionnels
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+La plateforme GEID se compose de plusieurs modules autonomes et interconnectés :
 
-### `yarn build`
+### Archives
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Mode d'accès : **Privé**
+- Description : Ce module regroupe l’ensemble des techniques destinées à recueillir, classer, conserver et exploiter les documents dès leur création. Il prend en charge divers formats (textes, vidéos, images, sons) et offre une conservation sécurisée à long terme.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Bibliothèque
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Mode d'accès : **Public**
+- Description : Elle propose une collection d’ouvrages et de publications utiles aux agents du ministère, mais aussi à la communauté nationale. Son contenu est mis à jour régulièrement et organisé par thématiques pour faciliter la consultation.
 
-### `yarn eject`
+### Filmothèque
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Mode d'accès : **Public**
+- Description : Ce module abrite des films documentaires (professionnels ou amateurs) liés aux activités budgétaires, servant à la valorisation institutionnelle et à la mémoire audiovisuelle.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Photothèque
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Mode d'accès : **Public**
+- Description : Elle regroupe des portraits officiels, des photographies d’événements historiques et des visuels emblématiques du Ministère du Budget. Une interface conviviale permet la recherche rapide par mots-clés.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Production & Publication
 
-## Learn More
+- Mode d'accès : **Public**
+- Description : Ce module centralise les bulletins périodiques, rapports d’activités, actes de gestion, circulaires et lois budgétaires. Il inclut les fonctions de diffusion et de vulgarisation.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Lisolo Ba Budget
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Mode d'accès : **Public**
+- Description : Outil collaboratif innovant permettant de travailler en équipe, d'organiser des réunions à distance et de partager des documents en temps réel. Il simplifie la coordination entre services administratifs.
 
-### Code Splitting
+## Fonctionnalités techniques
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Interface conditionnelle par **mode d’accès (privé/public)**
+- Système sécurisé pour les données sensibles
+- Organisation par catégories et indexation des contenus
+- Mise à jour automatisée des bibliothèques et bases de données
 
-### Analyzing the Bundle Size
+## Installation du projet
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Prérequis
 
-### Making a Progressive Web App
+- Node.js (version recommandée : ≥ 16)
+- pnpm installé globalement (`npm install -g pnpm`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Étapes
 
-### Advanced Configuration
+```bash
+# Cloner le dépôt
+git clone [https:/github.com/vic-mtf/geid-platform](https://github.com/vic-mtf/geid-platform)
+cd geid
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# Installer les dépendances avec pnpm
+pnpm install
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Démarrer le serveur de développement
+pnpm run dev
