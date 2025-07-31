@@ -1,0 +1,85 @@
+@font-face {
+  font-family: Calibri;
+  src: url("../assets/calibri_regular.ttf");
+}
+@font-face {
+  font-family: JetBrainsMono;
+  src: url("../assets/JetBrainsMono.ttf");
+}
+@font-face {
+  font-family: "noto emoji";
+  src: url("../assets/noto_emoji_regular.ttf");
+}
+
+html {
+  background: #eee5;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  display: flex;
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
+  user-select: none;
+}
+
+#root {
+  overflow: hidden;
+  display: flex;
+  flex: 1;
+}
+
+@keyframes rgb-grandient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes linearGradientMove {
+  100% {
+    background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
+  }
+}
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+}
+
+/* Chrome */
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Opéra*/
+input::-o-inner-spin-button,
+input::-o-outer-spin-button {
+  -o-appearance: none;
+  margin: 0;
+}
+/* width */
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0003;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 90deg;
+  inherits: true;
+}

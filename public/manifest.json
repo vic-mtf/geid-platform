@@ -1,0 +1,60 @@
+{
+  "short_name": "G-Connect",
+  "name": "Geid Connexion",
+  "icons": [
+    {
+      "src": "icon16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "icon32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "icon57.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "icon60.png",
+      "type": "image/png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "icon72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icon76.png",
+      "type": "image/png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "windows/icon70.png",
+      "type": "image/png",
+      "sizes": "70x70"
+    },
+    {
+      "src": "icon64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icon96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icon100.png",
+      "type": "image/png",
+      "sizes": "100x100"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff05",
+  "background_color": "#eeeeee05"
+}
