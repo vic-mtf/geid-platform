@@ -36,7 +36,10 @@ const Login = React.forwardRef((props, ref) => {
   const { search } = useLocation();
   const navigateTo = useNavigate();
   const encryptUser = useSelector((store) => store.app.user.data);
-
+  const user = useMemo(
+    () => encryptUser && decrypt(encryptUser),
+    [encryptUser]
+  );
   const defaultEmail = useMemo(() => {
     try {
       const { email } = queryString.parse(search);
@@ -47,18 +50,12 @@ const Login = React.forwardRef((props, ref) => {
     }
   }, [search]);
 
-  const user = useMemo(
-    () => encryptUser && decrypt(encryptUser),
-    [encryptUser]
-  );
   const [step, setStep] = useState(() => {
     if (defaultEmail) return 1;
     return user ? 0 : 1;
   });
   const emailCheckRef = useRef(null);
-
   const directions = useMemo(() => ({ enter: "left", exit: "right" }), []);
-
   const location = useLocation();
 
   const removeEmailParam = useCallback(
@@ -87,9 +84,10 @@ const Login = React.forwardRef((props, ref) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: { email: defaultEmail, password: "" },
+    defaultValues: { email: defaultEmail || user?.email, password: "" },
   });
 
   const handleChange = useCallback(
@@ -140,9 +138,11 @@ const Login = React.forwardRef((props, ref) => {
   const onSubmit = useCallback(
     async ({ email, password }) => {
       switch (step) {
-        case 0:
+        case 0: {
           handleChange(1);
+          setValue("email", "");
           break;
+        }
         case 1: {
           const isValid = await checkSession({ type: "email", value: email });
           if (isValid) handleChange(1);
@@ -153,7 +153,7 @@ const Login = React.forwardRef((props, ref) => {
           break;
       }
     },
-    [step, handleChange, checkSession, handleConnection]
+    [step, handleChange, checkSession, handleConnection, setValue]
   );
 
   useEffect(() => {
@@ -175,7 +175,7 @@ const Login = React.forwardRef((props, ref) => {
       display='flex'
       flexDirection='column'>
       <Box
-        minHeight={{ xs: "80%", md: 550 }}
+        minHeight={{ xs: "80%", md: 500 }}
         display='flex'
         sx={{
           maxWidth: { xs: "100%", md: 420 },

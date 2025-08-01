@@ -10,7 +10,14 @@ import {
 import PropTypes from "prop-types";
 import { useRef } from "react";
 
-const EmailCheckStep = ({ register, user, error, serverError, required }) => {
+const EmailCheckStep = ({
+  register,
+  user,
+  error,
+  serverError,
+  required,
+  handleChange,
+}) => {
   const messageRef = useRef(null);
 
   if (serverError)
@@ -35,17 +42,25 @@ const EmailCheckStep = ({ register, user, error, serverError, required }) => {
           })}
           fullWidth
         />
-        <Fade in={!!error} style={{ height: 5 }}>
+        <Fade in={!!error} style={{ height: 20 }}>
           <FormHelperText error>{error?.message}</FormHelperText>
         </Fade>
       </div>
-      <Typography>
-        Souhaitez-vous continuer la session en tant que{" "}
-        <Link underline='none' href='#'>
-          {user?.email}
-        </Link>{" "}
-        ?
-      </Typography>
+      {user && (
+        <Typography>
+          Reprendre votre session avec le compte{" "}
+          <Link
+            underline='none'
+            href='#'
+            onClick={(e) => {
+              e.preventDefault();
+              handleChange(-1);
+            }}>
+            {user?.email}
+          </Link>{" "}
+          détecté sur cet appareil.
+        </Typography>
+      )}
       <Fade in={Boolean(serverError)}>
         <Alert severity='error'>
           <Typography>{messageRef.current}</Typography>
@@ -61,6 +76,7 @@ EmailCheckStep.propTypes = {
   error: PropTypes.object,
   serverError: PropTypes.object,
   required: PropTypes.bool,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default EmailCheckStep;

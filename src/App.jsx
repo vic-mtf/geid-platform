@@ -7,7 +7,7 @@ function App() {
     <BoxGradient>
       <BrowserRouter basename='/account'>
         <Routes>
-          <Route path='/login' element={<Login />} />
+          <Route path='/login/*' element={<Login />} />
         </Routes>
       </BrowserRouter>
     </BoxGradient>

@@ -5,12 +5,15 @@ import {
   Typography,
   ListItemText,
   Divider,
+  Fade,
+  Alert,
 } from "@mui/material";
 import ListAvatar from "../../components/ListAvatar";
 import PropTypes from "prop-types";
 import getFullName from "../../utils/getFullName";
 import setLoginData from "./setLoginData";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useRef } from "react";
 
 const AutoReconnectSuggestion = ({
   //register,
@@ -19,30 +22,37 @@ const AutoReconnectSuggestion = ({
   checkSession,
   handleChange,
 }) => {
-  const { search } = useLocation();
-  const navigateTo = useNavigate();
+  const [isError, setIsError] = useState(false);
+  const messageRef = useRef(null);
+
+  if (isError)
+    messageRef.current =
+      serverError?.status === 404
+        ? "Ce profil n'existe plus. Veuillez vous reconnecter avec un autre compte."
+        : "Une erreur est survenue. Veuillez réessayer.";
 
   return (
-    <Box display='flex' flexDirection='column' gap={1}>
-      <Typography px={2}>
+    <Box display='flex' flexDirection='column'>
+      <Typography p={2}>
         Ce profil a été utilisé précédemment sur cet appareil. Voulez-vous
         poursuivre avec ce compte ?
       </Typography>
       <Divider variant='middle' />
       <ListItemButton
         onClick={async () => {
-          const isValid = await checkSession({
+          if (isError) setIsError(false);
+          let isValid = await checkSession({
             type: "token",
-            value: user?.token + 1,
+            value: user?.token,
           });
-          console.log("isValid =>", isValid);
           if (isValid) setLoginData(user);
           else {
-            handleChange(1);
-            const params = new URLSearchParams(search);
-            params.append("email", user?.email);
-            navigateTo("/login?" + params.toString());
-            handleChange(2);
+            isValid = await checkSession({
+              type: "email",
+              value: user?.email,
+            });
+            if (isValid) handleChange(2);
+            else setIsError(true);
           }
         }}>
         <ListItemAvatar>
@@ -60,6 +70,12 @@ const AutoReconnectSuggestion = ({
           }}
         />
       </ListItemButton>
+
+      <Fade in={serverError && isError} appear={false} unmountOnExit>
+        <Alert severity='error' sx={{ m: 1 }}>
+          {messageRef.current}
+        </Alert>
+      </Fade>
     </Box>
   );
 };

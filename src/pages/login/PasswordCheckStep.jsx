@@ -5,8 +5,13 @@ import {
   Checkbox,
   Chip,
   Fade,
+  FormControl,
   FormControlLabel,
   FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,9 +21,6 @@ import React, { useState } from "react";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import { useRef } from "react";
-import queryString from "query-string";
-import { useLocation } from "react-router-dom";
-import { useMemo } from "react";
 
 const PasswordCheckStep = ({
   register,
@@ -29,21 +31,9 @@ const PasswordCheckStep = ({
   watch,
   error,
 }) => {
-  const { search } = useLocation();
-  const defaultEmail = useMemo(() => {
-    try {
-      const { email } = queryString.parse(search);
-      return email;
-    } catch (error) {
-      console.error(error);
-      return "";
-    }
-  }, [search]);
   const messageRef = useRef(null);
-
-  const email = useMemo(() => {
-    return defaultEmail || watch("email");
-  }, [defaultEmail, watch]);
+  // const matches = useSmallScreen();
+  const email = watch("email");
 
   if (serverError)
     messageRef.current = [400, 401].includes(serverError?.status)
@@ -84,40 +74,66 @@ const PasswordCheckStep = ({
   );
 };
 
-const InputPassword = React.forwardRef(({ error, ...props }, ref) => {
-  const [showPassword, setShowPassword] = useState(false);
-  return (
-    <div>
+const InputPassword = React.forwardRef(
+  ({ error, label, fullWidth, ...props }, ref) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMousePassword = (event) => event.preventDefault();
+
+    return (
       <div>
-        <TextField
-          ref={ref}
-          {...props}
-          type={showPassword ? "text" : "password"}
-          autoComplete='off'
-          error={!!error}
-        />
+        <FormControl
+          // sx={{ m: 1 }}
+          variant='outlined'
+          fullWidth={fullWidth}
+          error={!!error}>
+          <InputLabel htmlFor='input-adornment-password'>{label}</InputLabel>
+          <OutlinedInput
+            error={!!error}
+            {...props}
+            slotProps={
+              {
+                //input: {  },
+              }
+            }
+            ref={ref}
+            id='input-adornment-password'
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label={
+                    showPassword
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMousePassword}
+                  onMouseUp={handleMousePassword}
+                  edge='end'>
+                  {showPassword ? (
+                    <VisibilityOffOutlinedIcon />
+                  ) : (
+                    <VisibilityOutlinedIcon />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            }
+            label={label}
+          />
+        </FormControl>
         <Fade in={!!error} style={{ height: 20 }}>
           <FormHelperText error>{error?.message}</FormHelperText>
         </Fade>
       </div>
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={showPassword}
-            icon={<VisibilityOffOutlinedIcon />}
-            checkedIcon={<VisibilityOutlinedIcon />}
-            onChange={() => setShowPassword(!showPassword)}
-          />
-        }
-        label={"Afficher le mot de passe"}
-      />
-    </div>
-  );
-});
+    );
+  }
+);
 
 InputPassword.propTypes = {
   error: PropTypes.object,
+  label: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 InputPassword.displayName = "InputPassword";

@@ -20,11 +20,11 @@ const setLoginData = (data) => {
   );
   LOGIN_BROADCAST_CHANNEL.postMessage(encryptUser, window.location.origin);
   if (window.opener) window.close();
-  // else
-  //   setTimeout(
-  //     () => window.location.replace(window.location.origin.toString()),
-  //     50
-  //   );
+  else
+    setTimeout(
+      () => window.location.replace(window.location.origin.toString()),
+      50
+    );
 };
 
 const LOGIN_BROADCAST_CHANNEL = new BroadcastChannel(LOGIN_CHANNEL);
