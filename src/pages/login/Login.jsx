@@ -176,13 +176,11 @@ const Login = React.forwardRef((props, ref) => {
       flexDirection='column'>
       <Box
         minHeight={{ xs: "80%", md: 500 }}
+        width={{ xs: "100%", md: 420 }}
         display='flex'
-        sx={{
-          maxWidth: { xs: "100%", md: 420 },
-          px: 0.5,
-          position: "relative",
-          flexDirection: "row",
-        }}>
+        position='relative'
+        flexDIrection='row'
+        px={0.5}>
         <Card
           component='form'
           onSubmit={handleSubmit(onSubmit)}

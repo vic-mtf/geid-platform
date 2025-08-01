@@ -17,7 +17,13 @@ const LoginHeader = () => {
       sx={{ userSelect: "none", pointerEvents: "none" }}
       title={
         <Box>
-          <Box component='img' src={srcLogo} srcSet={srcLogo} width='75%' />
+          <Box
+            component='img'
+            src={srcLogo}
+            srcSet={srcLogo}
+            width='75%'
+            loading='eager'
+          />
           <Typography align='center' variant='h5'>
             Connexion
           </Typography>

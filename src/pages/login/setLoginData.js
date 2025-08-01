@@ -18,7 +18,7 @@ const setLoginData = (data) => {
       },
     })
   );
-  LOGIN_BROADCAST_CHANNEL.postMessage(encryptUser, window.location.origin);
+  LOGIN_CHANNEL.postMessage(encryptUser, window.location.origin);
   if (window.opener) window.close();
   else
     setTimeout(
@@ -27,5 +27,4 @@ const setLoginData = (data) => {
     );
 };
 
-const LOGIN_BROADCAST_CHANNEL = new BroadcastChannel(LOGIN_CHANNEL);
 export default setLoginData;
