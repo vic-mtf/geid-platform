@@ -20,9 +20,11 @@ const LoginHeader = () => {
           <Box
             component='img'
             src={srcLogo}
-            srcSet={srcLogo}
-            width='75%'
-            loading='eager'
+            sx={{
+              objectFit: "contain",
+              height: 75,
+              width: 280,
+            }}
           />
           <Typography align='center' variant='h5'>
             Connexion

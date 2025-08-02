@@ -43,6 +43,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "rm -rf dist dist.zip;pnpm build && zip -r dist.zip dist && scp dist.zip root@143.198.110.104:~/server/GEID_Git/public/geid-platform/login",
     "lint": "eslint .",
     "preview": "vite preview"
   },
