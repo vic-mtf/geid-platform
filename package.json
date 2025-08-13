@@ -38,7 +38,8 @@
     "react-virtualized": "^9.22.6",
     "redux-persist": "^6.0.0",
     "useNotifications": "link:@toolpad/core/useNotifications",
-    "virtua": "^0.34.2"
+    "virtua": "^0.34.2",
+    "vite-plugin-mkcert": "^1.17.8"
   },
   "scripts": {
     "dev": "vite",

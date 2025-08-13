@@ -35,7 +35,7 @@ import setLoginData from "./setLoginData";
 const Login = React.forwardRef((props, ref) => {
   const { search } = useLocation();
   const navigateTo = useNavigate();
-  const encryptUser = useSelector((store) => store.app.user.data);
+  const encryptUser = useSelector((store) => store.app.user?.data);
   const user = useMemo(
     () => encryptUser && decrypt(encryptUser),
     [encryptUser]
@@ -179,7 +179,7 @@ const Login = React.forwardRef((props, ref) => {
         width={{ xs: "100%", md: 420 }}
         display='flex'
         position='relative'
-        flexDIrection='row'
+        flexDirection='row'
         px={0.5}>
         <Card
           component='form'
