@@ -57,6 +57,7 @@ const Login = React.forwardRef((props, ref) => {
   const emailCheckRef = useRef(null);
   const directions = useMemo(() => ({ enter: "left", exit: "right" }), []);
   const location = useLocation();
+  const timerFocusRef = useRef(null);
 
   const removeEmailParam = useCallback(
     (param) => {
@@ -85,6 +86,7 @@ const Login = React.forwardRef((props, ref) => {
     handleSubmit,
     watch,
     setValue,
+    setFocus,
     formState: { errors },
   } = useForm({
     defaultValues: { email: defaultEmail || user?.email, password: "" },
@@ -162,7 +164,16 @@ const Login = React.forwardRef((props, ref) => {
       handleChange(1);
       removeEmailParam("email");
     }
-  }, [data, defaultEmail, step, handleChange, removeEmailParam]);
+  }, [data, defaultEmail, step, handleChange, removeEmailParam, setFocus]);
+
+  useEffect(() => {
+    if (step < 1) return;
+    timerFocusRef.current = setTimeout(
+      () => setFocus(step === 1 ? "email" : "password"),
+      [300]
+    );
+    return () => clearTimeout(timerFocusRef.current);
+  }, [step, setFocus]);
 
   return (
     <Box
@@ -233,9 +244,6 @@ const Login = React.forwardRef((props, ref) => {
               color='primary'
               type='submit'
               disabled={loading}
-              onClick={() => {
-                console.log("submit");
-              }}
               endIcon={
                 step < 2 ? (
                   <NavigateNextOutlinedIcon />

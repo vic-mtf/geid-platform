@@ -1,17 +1,15 @@
-import {
-  Alert,
-  Avatar,
-  Box,
-  Chip,
-  Fade,
-  FormControl,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-} from "@mui/material";
+import Alert from "@mui/material/Alert";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Fade from "@mui/material/Fade";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Typography from "@mui/material/Typography";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -58,6 +56,7 @@ const PasswordCheckStep = ({
 
       <InputPassword
         label='Mot de passe'
+        //autoFocus
         {...register("password", {
           required: required && "Le mot de passe est requis",
         })}

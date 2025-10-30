@@ -1,12 +1,11 @@
-import {
-  Box,
-  TextField,
-  Typography,
-  FormHelperText,
-  Fade,
-  Link,
-  Alert,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import FormHelperText from "@mui/material/FormHelperText";
+import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
+import Fade from "@mui/material/Fade";
+
 import PropTypes from "prop-types";
 import { useRef } from "react";
 
@@ -37,6 +36,7 @@ const EmailCheckStep = ({
           error={!!error}
           label='Adresse email'
           type='email'
+          //autoFocus
           {...register("email", {
             required: required && "Veuillez renseigner votre adresse email",
           })}
